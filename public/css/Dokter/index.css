@@ -1,0 +1,235 @@
+
+body{
+    background-color: white;
+    color: black;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+nav {
+    width : 100%;
+    margin: auto;
+    display: flex;
+    line-height: 50px;
+    position: sticky;
+    top: 0px;
+    z-index: 9999;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+nav ul li {
+    float: left;
+}
+
+nav ul li a {
+    text-align: center;
+    color: #002A8C;
+    padding: 0px 16px 0px 16px;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+form{
+    width: 300px;
+    margin: 0px;
+}
+
+form label{
+    font-weight: bold;
+    display: flex;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+form input{
+    width: 70%;
+    padding: 5px;
+    border: none;
+    border: 1px solid;
+    border-radius: 8px;
+}
+
+input[type="submit"]{
+    margin-top: 15px;
+    width: 74%;
+    height: 30px;
+    font-weight: bold;
+    background-color: #002A8C;
+    color: white;
+}
+
+section {
+    margin: auto;
+    display: flex;
+}
+
+.header{
+    width: 90%;
+    position: relative;
+    margin: auto;
+    background-color: white;
+}
+
+.logoDentease img{
+    width: 23%;
+    float: left;
+}
+
+.menu{
+    font-family: "Concert One", sans-serif;
+    font-size: 20px;
+    margin-top: 20px;
+    float: right;
+}
+
+.wrapper{
+    width: 1100px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.imageMenu{
+    width: 55%;
+    height: 55%;
+}
+
+.kolom {
+    margin-top: 45px;
+    margin-left: 20px;
+}
+
+.kolom .motivation {
+    font-size: 50px;
+    color: #3D76FB;
+    margin-bottom: 10px;
+}
+
+.motivation strong{
+    color: #002A8C;
+}
+
+.kolom .deskripsi {
+    font-size: 15px;
+    margin-left: 5px;
+}
+
+.kolomform {
+    margin-top: 50px;
+    margin-left: 60px;
+}
+
+.kolomform h1{
+    margin-top: 0px;
+    margin-bottom: 10px;
+    font-size: 45px;
+    color: #002A8C;
+}
+
+.kolomform h2{
+    margin-top: 0px;
+    font-size: 30px;
+    color: #002A8C;
+}
+
+.fitur-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+  
+.fitur-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.errorText{
+    color: #FE4F2D;
+    font-size: 8px;
+    margin-top: 4px;
+    display: block;
+}
+
+.iconSuksesWrapper{
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.iconSuksesWrapper.show{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.errorBoxWrapper {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;    
+    justify-content: center; 
+    z-index: 9999;
+    pointer-events: none; 
+}
+
+#sideBar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100%;
+    background: white;
+    z-index: 9999;
+}
+
+#sideBar .logoDentease img{
+    width: 300%;
+}
+
+#errorBox {
+    padding: 15px 30px;
+    border-radius: 10px;
+    background-color: #FE4F2D;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#errorBox.show{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+#iconSignUpSukses{
+    color: #4BB543;
+    font-size: 80px;
+    margin-bottom: 15px;
+}
+
+#iconLogInSukses{
+    color: #4BB543;
+    font-size: 80px;
+    margin-bottom: 15px;
+}
