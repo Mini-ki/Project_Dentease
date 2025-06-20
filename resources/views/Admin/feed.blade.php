@@ -1,4 +1,4 @@
-@extends('layouts.Admin.admin')
+@extends('layouts.admin.sidebarAdmin')
 @section('title', 'Feed')
 
 @section('content')

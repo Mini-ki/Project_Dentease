@@ -24,31 +24,30 @@
         @if ($artikel->isNotEmpty())
             @foreach ($artikel as $artikelItem)
                 @php
-                    $imageData = base64_encode($artikelItem->image);
-                    $imageSrc = 'data:image/jpeg;base64,' . $imageData;
+                    $imagePath = 'img/uploads/feed/' . $artikelItem->image;
                     $tanggal = date('j F Y', strtotime($artikelItem->update_at ?: $artikelItem->created_at));
                 @endphp
                 <div class="card">
-                    <div class="card-image" style="background-image: url('{{ $imageSrc }}');"></div>
+                    <div class="card-image" style="background-image: url('{{ asset($imagePath) }}');"></div>
                     <h4>{{ htmlspecialchars($artikelItem->judul_feed) }}</h4>
                     <p><i>Ditulis oleh: <strong>Admin</strong> | Terbit {{ $tanggal }}</i></p>
                     <p>{{ htmlspecialchars($artikelItem->summary) }}...</p>
-                    <!-- Button to open modal -->
+                    <!-- Button buat modal -->
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#artikelModal{{ $artikelItem->id }}">
                         Baca Artikel
                     </button>
 
                     <!-- Modal -->
                     <div class="modal fade" id="artikelModal{{ $artikelItem->id }}" tabindex="-1" aria-labelledby="artikelModalLabel{{ $artikelItem->id }}" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="artikelModalLabel{{ $artikelItem->id }}">{{ htmlspecialchars($artikelItem->judul_feed) }}</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <img src="{{ $imageSrc }}" class="img-fluid" alt="{{ htmlspecialchars($artikelItem->judul_feed) }}">
-                                    <p class="mt-3">{{ htmlspecialchars($artikelItem->content) }}</p> <!-- Assuming 'content' is the full article text -->
+                                    <img src="{{ asset($imagePath) }}" class="img-fluid" alt="{{ htmlspecialchars($artikelItem->judul_feed) }}">
+                                    <p class="mt-3">{{ htmlspecialchars($artikelItem->deskripsi) }}</p> 
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -89,19 +88,18 @@
     <p style="text-align: center; color: #002A8C;">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 
     <div class="container my-4">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center align-items-stretch">
             @foreach ($layananData as $layanan)
                 <div class="col-auto mb-3">
                     <div class="cardLayanan" style="width: 18rem;">
                         <div class="card-body">
-                            <h5 class="card-title">{{ htmlspecialchars($layanan->nama_layanan) }}</h5>
+                            <h5 class="card-title" style="font-family: 'Oswald', sans-serif;">{{ htmlspecialchars($layanan->nama_layanan) }}</h5>
                             <p class="card-text">
                                 Dokter:<br>
                                 @if (!empty($layanan->dokters))
                                 @foreach ($layanan->dokters as $dokter)
                                     <div class="dokter-info">
                                         <p><strong>{{ $dokter->nama_lengkap }}</strong> - {{ $dokter->spesialis }}</p>
-                                        <p>Alamat: {{ $dokter->alamat }}</p>
                                     </div>
                                 @endforeach
                                 @else

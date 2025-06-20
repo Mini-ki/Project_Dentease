@@ -71,7 +71,7 @@
     </div>
 
     <div class="banner-wrapper">
-        <img src="{{ asset('img/bg1.jpg') }}" alt="Banner">
+        <img src="{{ asset('img/background-title.jpg') }}" alt="Banner">
         <div class="overlay">
             <h1 style="left: 0; font-family: 'Oswald', sans-serif;">@yield('banner-title')</h1>
             <p style="font-family: 'Barlow', sans-serif; font-size: 25px;margin: 0;">@yield('banner-description')</p>

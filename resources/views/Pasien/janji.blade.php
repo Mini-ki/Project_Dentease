@@ -56,7 +56,9 @@
         </div>
 
         <div class="d-flex flex-column gap-2 mt-4">
-            <a href="{{ route('pasien.homepage') }}" class="btn btn-secondary">Kembali</a>
+            <div style="display: flex; justify-content: center; margin-top: 20px;">
+                <a href="{{ route('pasien.homepage') }}" class="btn btn-secondary">Kembali</a>
+            </div>    
             <input type="submit" value="Submit">
         </div>
     </form>

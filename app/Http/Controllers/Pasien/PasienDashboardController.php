@@ -29,6 +29,7 @@ class PasienDashboardController extends Controller
                 'image',
                 'update_at',
                 'created_at',
+                'deskripsi',
                 DB::raw('TRIM(SUBSTRING_INDEX(deskripsi, " ", 20)) AS summary')
             )
             ->orderBy('update_at', 'desc')

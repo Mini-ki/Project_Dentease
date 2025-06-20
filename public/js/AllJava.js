@@ -33,3 +33,30 @@ if (window.scrollY > 50) {
     navbar.classList.remove('scrolled');
 }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    function setEqualCardHeights() {
+        const row = document.getElementById('layanan-cards-row');
+        if (!row) return;
+
+        const cards = row.querySelectorAll('.cardLayanan');
+        let maxHeight = 0;
+
+        cards.forEach(card => {
+            card.style.height = 'auto';
+        });
+
+        cards.forEach(card => {
+            if (card.offsetHeight > maxHeight) {
+                maxHeight = card.offsetHeight;
+            }
+        });
+
+        cards.forEach(card => {
+            card.style.height = `${maxHeight}px`;
+        });
+    }
+
+    setEqualCardHeights();
+    window.addEventListener('resize', setEqualCardHeights);
+});

@@ -27,7 +27,10 @@ class KonsultasiController extends Controller
                 'dokter.layananDokter' => function($query) { 
                     $query->select('id_layanan', 'nama_layanan');
                 },
-                'rekamMedis' 
+                'rekamMedis',
+                'ulasanDokter' => function($query) {
+                    $query->select('id_konsultasi', 'id_dokter', 'rating', 'ulasan');
+                }
             ])
             ->where('id_pasien', $pasienId)
             ->orderBy('tanggal_konsultasi', 'desc')
@@ -36,6 +39,8 @@ class KonsultasiController extends Controller
         $konsultasiList->each(function ($konsultasi) {
             $konsultasi->nama_panggilan = $konsultasi->dokter->nama_panggilan ?? 'N/A';
             $konsultasi->nama_layanan = $konsultasi->dokter->layananDokter->nama_layanan ?? 'N/A';
+            $konsultasi->rating = $konsultasi->ulasanDokter->rating ?? null;
+            $konsultasi->ulasan = $konsultasi->ulasanDokter->ulasan ?? 'Anda belum memberikan ulasan untuk konsultasi ini.';
         });
 
         return view('pasien.konsultasi', compact('konsultasiList'));
@@ -101,7 +106,7 @@ class KonsultasiController extends Controller
         }
 
         $request->validate([
-            'id_konsultasi' => 'required|exists:ulasan_dokter,id_konsultasi', // Pastikan ulasan_dokter ada
+            'id_konsultasi' => 'required|exists:ulasan_dokter,id_konsultasi', 
         ]);
 
         $id_konsultasi = $request->id_konsultasi;

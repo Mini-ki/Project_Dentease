@@ -52,8 +52,8 @@ class FeedController extends Controller
         $adminId = Auth::guard('admin')->id();
         $newFeedName = null;
 
-        if ($request->hasFile('image_file')) {
-            $file = $request->file('image_file');
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
             $fileNameWithoutExt = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $extension = $file->getClientOriginalExtension();
 
@@ -112,35 +112,12 @@ class FeedController extends Controller
         $adminId = Auth::guard('admin')->id();
         $newFeedName = $feed->image; 
 
-        if ($request->hasFile('image_file')) {
-            if ($feed->image && File::exists(storage_path('app/' . $this->uploadDir . $feed->image))) {
-                File::delete(storage_path('app/' . $this->uploadDir . $feed->image));
-            }
-
-            $file = $request->file('image_file');
-            $fileNameWithoutExt = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $extension = $file->getClientOriginalExtension();
-
-            $latestFeed = Feed::where('id_admin', $adminId)
-                               ->where('image', 'like', $adminId . '_' . $fileNameWithoutExt . '_%')
-                               ->orderByDesc('created_at')
-                               ->first();
-
-            $nomorTerakhir = 0;
-            if ($latestFeed && $latestFeed->image) {
-                $feedFileName = pathinfo($latestFeed->image, PATHINFO_FILENAME);
-                $pos = strrpos($feedFileName, '_');
-                if ($pos !== false) {
-                    $angkaStr = substr($feedFileName, $pos + 1);
-                    if (is_numeric($angkaStr)) {
-                        $nomorTerakhir = (int)$angkaStr;
-                    }
-                }
-            }
-            $nomorBaru = $nomorTerakhir + 1;
-            $newFeedName = $adminId . '_' . $fileNameWithoutExt . '_' . $nomorBaru . '.' . $extension;
-
-            $file->storeAs($this->uploadDir, $newFeedName);
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension(); // Nama file unik
+            $image->move(public_path('img/uploads/feed'), $filename); // Pindahkan ke folder public
+        
+            $feed->image = $filename; // Simpan nama file di DB
         }
 
         $feed->update([

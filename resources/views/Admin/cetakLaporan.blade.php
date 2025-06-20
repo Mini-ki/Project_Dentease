@@ -110,7 +110,7 @@
             rawData: <?php echo json_encode($chartData); ?>
         };
     </script>
-    <script src="{{ asset('asset/js/admin/laporan.js') }}"></script>
+    <script src="{{ asset('js/admin/laporan.js') }}"></script>
     <script>
         setTimeout(() => {
             window.print();

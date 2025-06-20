@@ -39,13 +39,23 @@
         </table>
     </div>
 
-    <a href="{{ route('pasien.homepage') }}" class="btn btn-secondary">Kembali</a>
+    <div style="display: flex; justify-content: center; margin-top: 20px;">
+        <a href="{{ route('pasien.homepage') }}" class="btn btn-primary" style="background-color: #002A8C; border: none;">
+            Kembali
+        </a>
+    </div>
     <hr style="margin-top: 80px">
     <h1>Ayo buat janji temu dengan dokter-dokter terbaik kami.</h1>
-    <img src="{{ asset('assets/img/ilustrasi3.jpg') }}" alt="janji temu" style="width: 40%">
-    <p>Kesehatan gigi dan mulut Anda sangat penting! ...</p>
-    <a href="{{ route('pasien.janji') }}" class="btn btn-primary">Buat Janji Temu</a>
-</div>
+    <img src="{{ asset('img/ilustrasi3.jpg') }}" alt="janji temu" style="width: 40%">
+    <p>Kesehatan gigi dan mulut Anda sangat penting! Jangan menunggu hingga masalah gigi 
+        menjadi lebih serius. Kami mengundang Anda untuk membuat janji temu dengan dokter 
+        gigi kami agar bisa mendapatkan perawatan yang tepat dan terbaik untuk kebutuhan Anda.</p>
+    <div style="display: flex; justify-content: center; margin-top: 20px;">
+        <a href="{{ route('pasien.janji') }}" class="btn btn-primary" style="background-color: #002A8C; border: none;">
+            Buat Janji Temu
+        </a>
+    </div>
+    </div>
 @endsection
 @section('scripts')
     <script src="{{ asset('js/AllJava.js') }}"></script>

@@ -3,8 +3,8 @@
 @section('title', 'Konsultasi')
 
 @section('additional-css')
-<link rel="stylesheet" href="{{ asset('css/konsultasi.css') }}">
 <link rel="stylesheet" href="{{ asset('css/stylesJadwal.css') }}">
+<link rel="stylesheet" href="{{ asset('css/konsultasi.css') }}">
 <style>
     .rekam-medis-modal-content p {
         margin-bottom: 0.5rem;
@@ -51,7 +51,7 @@
                         <td>{{ $k->nama_panggilan }}</td>
                         <td>{{ $k->nama_layanan }}</td>
                         <td>
-                            <span class="badge {{ $k->status === 'Sudah Selesai' ? 'bg-success' : 'bg-warning text-dark' }}">
+                            <span class="badge {{ $k->status === 'Sudah Selesai' ? 'bg-success' : 'bg-warning text-light' }}">
                                 {{ $k->status }}
                             </span>
                         </td>
@@ -68,14 +68,13 @@
                                     </div>
                                     <button class="btn btn-sm btn-info"
                                         onclick="showDetailModal('{{ $k->id_konsultasi }}', '{{ $k->rating }}', '{{ json_encode($k->ulasan) }}')"
-                                        style="background-color: #002A8C; color: white;">
+                                        style="color: #002A8C; background-color: #F1F5F9;">
                                         Lihat Detail
                                     </button>
                                 @else
-                                    <span class="text-muted">Belum dinilai</span><br>
                                     <button class="btn btn-sm btn-success mt-2"
                                         onclick="openRatingModal('{{ $k->id_konsultasi }}')"
-                                        style="background-color: #002A8C;">
+                                        style="color: #002A8C; background-color: #F1F5F9;">
                                         Beri Rating
                                     </button>
                                 @endif
@@ -88,7 +87,7 @@
                             @if ($k->rekamMedis)
                                 <button class="btn btn-sm btn-primary"
                                     onclick="showRekamMedisModal('{{ json_encode($k->rekamMedis) }}')"
-                                    style="background-color: #17a2b8; color: white;"> {{-- Warna biru cerah --}}
+                                    style="background-color: #F1F5F9; color: #002A8C; "> 
                                     Lihat Rekam Medis
                                 </button>
                             @else
@@ -131,7 +130,7 @@
                 <input type="hidden" name="id_konsultasi" id="modalIdKonsultasi">
                 <input type="hidden" name="rating" id="modalRating" value="0">
                 <div class="modal-header">
-                    <h5 class="modal-title">Beri / Ubah Rating</h5>
+                    <h5 class="modal-title">Beri Rating</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
@@ -179,8 +178,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
                 </div>
                 <div class="modal-body">
-                    {{-- Nama Pasien dan Dokter tidak perlu di sini karena ini adalah rekam medis pasien yang sedang login --}}
-                    {{-- Data ini sudah ada di halaman konsultasi --}}
                     <p><strong>Tanggal Konsultasi:</strong> <span id="rmTanggal"></span></p>
                     <p><strong>Diagnosa:</strong> <span id="rmDiagnosa"></span></p>
                     <p><strong>Tindakan:</strong> <span id="rmTindakan"></span></p>

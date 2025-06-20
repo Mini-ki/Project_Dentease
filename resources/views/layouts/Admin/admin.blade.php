@@ -8,10 +8,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/admin/dashboard.css') }}" rel="stylesheet"> 
-    
-    @stack('styles') 
+    <link href="{{ asset('css/Dokter/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/Dokter/dashboard.css') }}" rel="stylesheet">
+
+    @yield('styles') 
 </head>
 <body>
     <section id="sidebar">
@@ -110,6 +110,6 @@
     <script src="{{ asset('js/main.js') }}"></script> {{-- Path JS umum --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 
-    @stack('scripts')
+    @yield('scripts')
 </body>
 </html>

@@ -32,5 +32,10 @@ class Konsultasi extends Model
     {
         return $this->hasOne(RekamMedis::class, 'id_konsultasi', 'id_konsultasi');
     }
+
+    public function ulasanDokter()
+    {
+        return $this->hasOne(UlasanDokter::class, 'id_konsultasi', 'id_konsultasi');
+    }
 }
 ?>

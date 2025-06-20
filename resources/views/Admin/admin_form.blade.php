@@ -1,4 +1,4 @@
-@extends('layouts.admin.admin') 
+@extends('layouts.Admin.admin') 
  
 @section('title', (isset($op) && $op == 'edit') ? 'Edit Data Admin' : 'Tambah Data Admin')
 
