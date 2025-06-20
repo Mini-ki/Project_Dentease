@@ -165,7 +165,7 @@
                             <tr>
                                 <th scope="row">{{ $key + 1 }}</th>
                                 <td scope="row">{{ $jadwal->dokter->nama_lengkap ?? 'N/A' }}</td>
-                                <td scope="row">{{ $jadwal->dokter->layanan->nama_layanan ?? 'N/A' }}</td>
+                                <td scope="row">{{ $jadwal->dokter->layananDokter->nama_layanan ?? 'N/A' }}</td>
                                 <td scope="row">{{ $jadwal->hari }}</td>
                                 <td scope="row">{{ $jadwal->jam_mulai }}</td>
                                 <td scope="row">{{ $jadwal->jam_selesai }}</td>

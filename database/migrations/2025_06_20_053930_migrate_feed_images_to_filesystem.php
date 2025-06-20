@@ -3,8 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Feed; // Pastikan model Feed di-import
-use Illuminate\Support\Facades\Storage; // Untuk menyimpan file
+use App\Models\Feed; 
+use Illuminate\Support\Facades\Log; // Untuk logging
 
 return new class extends Migration
 {
@@ -40,7 +40,7 @@ return new class extends Migration
 
                 } catch (\Exception $e) {
                     // Log error jika ada masalah dengan satu gambar, tapi lanjutkan yang lain
-                    \Log::error("Failed to migrate image for feed ID {$feed->id}: " . $e->getMessage());
+                    Log::error("Failed to migrate image for feed ID {$feed->id}: " . $e->getMessage());
                 }
             }
         }

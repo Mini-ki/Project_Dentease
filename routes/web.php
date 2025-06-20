@@ -49,23 +49,22 @@ Route::middleware(['auth'], ['role: pasien'])->group(function () {
 });
 
 Route::prefix('admin')->name('admin.')->middleware(['auth'], ['role:super_admin,admin,operator'])->group(function () {
-    Route::middleware(['role:super_admin'])->group(function () {
-        Route::get('/admin', [AdminController::class, 'index'])->name('admin_index'); 
-        Route::get('/admin/create', [AdminController::class, 'create'])->name('admin_create'); 
-        Route::post('/admin', [AdminController::class, 'store'])->name('admin_store'); 
-        Route::get('/admin/{id_admin}/edit', [AdminController::class, 'edit'])->name('admin_edit'); 
-        Route::put('/admin/{id_admin}', [AdminController::class, 'update'])->name('admin_update');
-        Route::delete('/admin/{id_admin}', [AdminController::class, 'destroy'])->name('admin_destroy'); 
-    });
+    
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin_index'); 
+    Route::get('/admin/create', [AdminController::class, 'create'])->name('admin_create'); 
+    Route::post('/admin', [AdminController::class, 'store'])->name('admin_store'); 
+    Route::get('/admin/{id_admin}/edit', [AdminController::class, 'edit'])->name('admin_edit'); 
+    Route::put('/admin/{id_admin}', [AdminController::class, 'update'])->name('admin_update');
+    Route::delete('/admin/{id_admin}', [AdminController::class, 'destroy'])->name('admin_destroy'); 
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan'); 
     Route::get('/laporan/cetak', [LaporanController::class, 'printReport'])->name('laporan.cetak');
     Route::get('/dokter', [DokterController::class, 'index'])->name('dokter');
-    Route::get('/dokter/create', [DokterController::class, 'create'])->name('dokter.create')->middleware(['role:super_admin,admin']);
-    Route::post('/dokter', [DokterController::class, 'store'])->name('dokter.store')->middleware(['role:super_admin,admin']);
-    Route::get('/dokter/{id_dokter}/edit', [DokterController::class, 'edit'])->name('dokter.edit')->middleware(['role:super_admin,admin']);
-    Route::put('/dokter/{id_dokter}', [DokterController::class, 'update'])->name('dokter.update')->middleware(['role:super_admin,admin']);
-    Route::delete('/dokter/{id_dokter}', [DokterController::class, 'destroy'])->name('dokter.destroy')->middleware(['role:super_admin,admin']);
+    Route::get('/dokter/create', [DokterController::class, 'create'])->name('dokter.create');
+    Route::post('/dokter', [DokterController::class, 'store'])->name('dokter.store');
+    Route::get('/dokter/{id_dokter}/edit', [DokterController::class, 'edit'])->name('dokter.edit');
+    Route::put('/dokter/{id_dokter}', [DokterController::class, 'update'])->name('dokter.update');
+    Route::delete('/dokter/{id_dokter}', [DokterController::class, 'destroy'])->name('dokter.destroy');
     Route::resource('feed', FeedController::class);
     Route::get('/konsultasi', [KonsultasiController::class, 'index'])->name('konsultasi');
     Route::match(['get', 'post'], '/layanan', [LayananController::class, 'index'])->name('layanan');

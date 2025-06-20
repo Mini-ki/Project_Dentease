@@ -91,7 +91,7 @@
                                 {{-- Mengakses data melalui relasi --}}
                                 <td scope="row">{{ $data->pasien->nama_lengkap ?? 'N/A' }}</td>
                                 <td scope="row">{{ $data->dokter->nama_lengkap ?? 'N/A' }}</td>
-                                <td scope="row">{{ $data->dokter->layanan->nama_layanan ?? 'N/A' }}</td> {{-- Akses layanan via dokter --}}
+                                <td scope="row">{{ $data->dokter->layananDokter->nama_layanan ?? 'N/A' }}</td> {{-- Akses layanan via dokter --}}
                                 <td scope="row">{{ $data->tanggal_konsultasi }}</td>
                                 <td scope="row">{{ $data->status }}</td>
                                 <td scope="row">{{ $data->status_pembayaran }}</td>

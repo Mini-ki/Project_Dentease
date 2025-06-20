@@ -19,7 +19,7 @@ class KonsultasiController extends Controller
         $jumlah_konsultasiSedangKonsultasi = Konsultasi::where('status', 'Sedang Konsultasi')->count();
         $jumlah_konsultasiBelum = Konsultasi::where('status', 'Belum')->count();
 
-        $query = Konsultasi::with(['dokter', 'pasien', 'dokter.layanan']); 
+        $query = Konsultasi::with(['dokter', 'pasien', 'dokter.layananDokter']); 
 
         if ($request->filled('searchInput')) {
             $searchInput = $request->input('searchInput');

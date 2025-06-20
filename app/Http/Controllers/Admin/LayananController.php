@@ -105,7 +105,7 @@ class LayananController extends Controller
         }
 
         $layananStatistik = LayananDokter::withCount(['dokters' => function($query) {
-                                $query->whereHas('layanan', function($q) {
+                                $query->whereHas('layananDokter', function($q) {
                                     $q->where('status', 'Aktif');
                                 });
                             }])
@@ -114,8 +114,8 @@ class LayananController extends Controller
 
         $layananData = LayananDokter::orderBy('id_layanan')->get();
 
-        $jadwalDokterQuery = JadwalDokter::with(['dokter.layanan'])
-                                        ->whereHas('dokter.layanan', function ($query) {
+        $jadwalDokterQuery = JadwalDokter::with(['dokter.layananDokter'])
+                                        ->whereHas('dokter.layananDokter', function ($query) {
                                             $query->where('status', 'Aktif');
                                         });
 
