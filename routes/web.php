@@ -49,7 +49,6 @@ Route::middleware(['auth'], ['role: pasien'])->group(function () {
 });
 
 Route::prefix('admin')->name('admin.')->middleware(['auth'], ['role:super_admin,admin,operator'])->group(function () {
-    
     Route::get('/admin', [AdminController::class, 'index'])->name('admin_index'); 
     Route::get('/admin/create', [AdminController::class, 'create'])->name('admin_create'); 
     Route::post('/admin', [AdminController::class, 'store'])->name('admin_store'); 

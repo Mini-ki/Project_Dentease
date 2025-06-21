@@ -33,7 +33,7 @@
                     <option value="">Pilih Dokter</option>
                     @foreach($dokterList as $dokter)
                         <option value="{{ $dokter->id_dokter }}">
-                            {{ $dokter->nama_lengkap }} - {{ $dokter->nama_layanan }}
+                            {{ $dokter->nama_lengkap }} - {{ $dokter->layananDokter ?-> nama_layanan}}
                         </option>
                     @endforeach
                 </select>
@@ -57,7 +57,7 @@
 
         <div class="d-flex flex-column gap-2 mt-4">
             <div style="display: flex; justify-content: center; margin-top: 20px;">
-                <a href="{{ route('pasien.homepage') }}" class="btn btn-secondary">Kembali</a>
+                <a href="{{ route('pasien.homepage') }}" class="btn btn-secondary" style="background-color: #002A8C; border: none; width: 200px;">Kembali</a>
             </div>    
             <input type="submit" value="Submit">
         </div>

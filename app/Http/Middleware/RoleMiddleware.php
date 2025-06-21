@@ -26,6 +26,12 @@ class RoleMiddleware
             return redirect()->route('home')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
         }
 
+        return $next($request);$user = Auth::user();
+        $actualRole = $user->sub_role; // Mengambil sub-role yang sebenarnya
+    
+        if (!in_array($actualRole, $roles)) {
+            return redirect()->route('home')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
         return $next($request);
     }
 }

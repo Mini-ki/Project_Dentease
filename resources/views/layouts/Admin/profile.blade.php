@@ -4,7 +4,7 @@
 <div class="container">
     <h2>{{ isset($admin) ? 'Edit Admin' : 'Tambah Admin' }}</h2>
 
-    <form method="POST" action="{{ isset($admin) ? route('admin.update', $admin->id_admin) : route('admin.store') }}">
+    <form method="POST" action="{{ isset($admin) ? route('admin_update', $admin->id_admin) : route('admin_store') }}">
         @csrf
         @if(isset($admin))
             @method('PUT')

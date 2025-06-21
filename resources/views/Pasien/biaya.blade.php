@@ -3,8 +3,9 @@
 @section('title', 'Dokter dan Layanan')
 
 @section('additional-css')
-    <link rel="stylesheet" href="{{ asset('css/biaya.css') }}">
     <link rel="stylesheet" href="{{ asset('css/cardDokter.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/biaya.css') }}">
+    
 @endsection
 @section('banner-title', 'Dokter dan Layanan')
 @section('banner-description', 'Dokter, layanan, dan biaya layanan kami.')
@@ -38,7 +39,7 @@
 
 <div class="container mb-5">
     <table class="table table-bordered text-center">
-        <thead class="table-primary">
+        <thead>
             <tr>
                 <th>No</th>
                 <th>Nama Dokter</th>
@@ -62,6 +63,6 @@
 </div>
 
 <div class="text-center mb-5">
-    <a href="{{ route('pasien.homepage') }}" class="btn btn-secondary">Kembali</a>
+    <a href="{{ route('pasien.homepage') }}" class="button">Kembali</a>
 </div>
 @endsection

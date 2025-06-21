@@ -3,17 +3,33 @@
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
     padding: 20px;
-    max-width: 420px; 
-    margin: auto; 
+
+    /* HAPUS max-width */
+    /* max-width: 420px; */
+
+    width: 100%;
+    max-width: 1200px; /* Atur sesuai kebutuhan */
+    margin: 0 auto; /* Tetap tengah */
 }
 
 .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 15px;
     text-align: center;
+    height: 100%; /* penting biar flex bisa maksimal */
 }
+
+.card button,
+.card input[type="submit"] {
+    margin-top: auto; /* ini yang dorong ke bawah */
+    align-self: center; /* biar tetap di tengah */
+}
+
 
 .card-image {
     height: 300px;

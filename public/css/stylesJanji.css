@@ -11,16 +11,19 @@ img {
     margin-left: auto;
     margin-right: auto;
 }
+
 h1 {
     text-align: center;
     color: #274760;
 }
+
 hr {
     margin-top: 20px;
     margin-bottom: 20px;
     height: 2px;
     background-color: #274760;
 }
+
 p {
     text-align: justify;
     font-family: "Times New Roman", serif;
@@ -56,30 +59,14 @@ input[type="text"], input[type="date"], select, textarea {
     text-align: center;
 }
 
-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #274760;
-    color: white;
-    font-size: 12px;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-}
 
 label {
     color: #274760;
     display: block;
 }
-input[type=submit], input[type=reset] {
-    background-color: #274760;
-    color: #e9f1f6;
+input[type=submit]{
+    background-color: #002A8C;
+    color: white;
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -89,17 +76,6 @@ input[type=submit], input[type=reset] {
     margin: 0 auto;
     width: 200px;
     margin-top: 20px;
-}
-input[type=submit]:hover, input[type=reset]:hover {
-    background-color: #e9f1f6;
-    color: #274760;
-    border: 1px solid #274760;
-}
-input[type=reset] {
-    background-color: #274760;
-    color: #e9f1f6;
-    padding: 10px;
-    border: none;
 }
 .container{
     background-color: #f6f7fa;

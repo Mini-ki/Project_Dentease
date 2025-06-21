@@ -21,14 +21,15 @@
     </div>
 
     <div class="grid-container">
-        @if ($artikel->isNotEmpty())
-            @foreach ($artikel as $artikelItem)
-                @php
-                    $imagePath = 'img/uploads/feed/' . $artikelItem->image;
-                    $tanggal = date('j F Y', strtotime($artikelItem->update_at ?: $artikelItem->created_at));
-                @endphp
+    @if ($artikel->isNotEmpty())
+        @foreach ($artikel as $artikelItem)
+            @php
+                $decodedPath = base64_decode($artikelItem->image);
+                $imagePath = 'storage/' . $decodedPath;
+                $tanggal = date('j F Y', strtotime($artikelItem->update_at ?? $artikelItem->created_at));
+            @endphp
                 <div class="card">
-                    <div class="card-image" style="background-image: url('{{ asset($imagePath) }}');"></div>
+                    <div class="card-image" style="background-image: url('{{ asset($imagePath) }}')"></div>
                     <h4>{{ htmlspecialchars($artikelItem->judul_feed) }}</h4>
                     <p><i>Ditulis oleh: <strong>Admin</strong> | Terbit {{ $tanggal }}</i></p>
                     <p>{{ htmlspecialchars($artikelItem->summary) }}...</p>
@@ -38,7 +39,7 @@
                     </button>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="artikelModal{{ $artikelItem->id }}" tabindex="-1" aria-labelledby="artikelModalLabel{{ $artikelItem->id }}" aria-hidden="true">
+                    <div class="modal fade" id="artikelModal{{ $artikelItem->id }}" tabindex="-1" aria-labelledby="artikelModalLabel{{ $artikelItem->id }}" aria-hidden="true" style="z-index: 9999;">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -46,7 +47,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <img src="{{ asset($imagePath) }}" class="img-fluid" alt="{{ htmlspecialchars($artikelItem->judul_feed) }}">
+                                    <img src="{{ asset($imagePath) }}" class="img-fluid" alt="{{ htmlspecialchars($artikelItem->judul_feed) }}" style="width: 300%; height: auto; margin-bottom: 20px;">
                                     <p class="mt-3">{{ htmlspecialchars($artikelItem->deskripsi) }}</p> 
                                 </div>
                                 <div class="modal-footer">

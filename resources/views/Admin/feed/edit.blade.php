@@ -28,9 +28,9 @@
                 @enderror
                 <br>
         
-                <label for="image_file">Pilih Gambar (Biarkan kosong jika tidak ingin mengubah)</label>
-                <input type="file" name="image_file" id="image_file" accept="image/*">
-                @error('image_file')
+                <label for="image">Pilih Gambar (Biarkan kosong jika tidak ingin mengubah)</label>
+                <input type="file" name="image" id="image" accept="image/*">
+                @error('image')
                     <p style="color: red;">{{ $message }}</p>
                 @enderror
 

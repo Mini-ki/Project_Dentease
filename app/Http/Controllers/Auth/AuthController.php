@@ -19,9 +19,13 @@ class AuthController extends Controller
 
             $user = Auth::user();
 
-            if ($user->role === 'admin') {
-                Auth::guard('admin')->login($user);  
-                return redirect()->route('admin.dashboard');
+            if ($user->role === 'admin') { 
+                if ($user->sub_role === 'super_admin') {
+                    return redirect()->route('admin.dashboard')->with('status', 'Login sebagai Super Admin berhasil!');
+                } elseif ($user->sub_role === 'operator') {
+                    return redirect()->route('admin.dashboard')->with('status', 'Login sebagai Operator berhasil!');
+                }
+                return redirect()->route('admin.dashboard')->with('status', 'Login sebagai Admin berhasil!');
             } elseif ($user->role === 'dokter') {
                 Auth::guard('dokter')->login($user);  
                 return redirect()->route('dokter.dashboard');

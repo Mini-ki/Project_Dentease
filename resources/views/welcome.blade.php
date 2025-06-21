@@ -22,15 +22,15 @@
     </div>
 
     <div class="grid-container">
-        @if ($artikel->isNotEmpty())
-            @foreach ($artikel as $artikelItem)
-                @php
-                    $imageData = base64_encode($artikelItem->image);
-                    $imageSrc = 'data:image/jpeg;base64,' . $imageData;
-                    $tanggal = date('j F Y', strtotime($artikelItem->update_at ?: $artikelItem->created_at));
-                @endphp
+    @if ($artikel->isNotEmpty())
+        @foreach ($artikel as $artikelItem)
+            @php
+                $decodedPath = base64_decode($artikelItem->image);
+                $imagePath = 'storage/' . $decodedPath;
+                $tanggal = date('j F Y', strtotime($artikelItem->update_at ?? $artikelItem->created_at));
+            @endphp
                 <div class="card">
-                    <div class="card-image" style="background-image: url('{{ $imageSrc }}');"></div>
+                    <div class="card-image" style="background-image: url('{{ asset($imagePath) }}')"></div>
                     <h4>{{ htmlspecialchars($artikelItem->judul_feed) }}</h4>
                     <p><i>Ditulis oleh: <strong>Admin</strong> | Terbit {{ $tanggal }}</i></p>
                     <p>{{ htmlspecialchars($artikelItem->summary) }}...</p>
@@ -40,7 +40,7 @@
                     </button>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="artikelModal{{ $artikelItem->id }}" tabindex="-1" aria-labelledby="artikelModalLabel{{ $artikelItem->id }}" aria-hidden="true">
+                    <div class="modal fade" id="artikelModal{{ $artikelItem->id }}" tabindex="-1" aria-labelledby="artikelModalLabel{{ $artikelItem->id }}" aria-hidden="true" style="z-index: 9999;">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -48,7 +48,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <img src="{{ $imageSrc }}" class="img-fluid" alt="{{ htmlspecialchars($artikelItem->judul_feed) }}">
+                                    <img src="{{ $imagePath }}" class="img-fluid" alt="{{ htmlspecialchars($artikelItem->judul_feed) }}">
                                     <p class="mt-3">{{ htmlspecialchars($artikelItem->content) }}</p> <!-- Assuming 'content' is the full article text -->
                                 </div>
                                 <div class="modal-footer">
@@ -174,4 +174,38 @@
             </div>
         </div>
     </div>
+
+    <footer id="footer" style="margin-top: 200px;">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About us</h3>
+                <p>Dentease adalah tempat perawatan gigi terbaik di Jogja dengan
+                pelayanan modern dan tenaga medis berpengalaman.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Our contact</h3>
+                <p><strong>Alamat:</strong> Jl. Informatika Alamat No. 23, Kota Yogyakarta</p>
+                <p><strong>Telepon:</strong> F1D02310107</p>
+                <p><strong>Email:</strong> <a href="mailto:f1d02310107@student.unram.ac.id">f1d02310107@student.unram.ac.id</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Location</h3>
+                <iframe src="https://www.google.com/maps/embed?pb=..."
+                        style="width: 250.4px; height: 150.4px; border: none; border-radius: 20px;">
+                </iframe>
+            </div>
+            <div class="footer-section">
+                <h3>Follow us!</h3>
+                <ul class="social-media">
+                    <li><a href="https://facebook.com" target="_blank">Facebook</a></li>
+                    <li><a href="https://twitter.com" target="_blank">Twitter</a></li>
+                    <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+                    <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Dentease | All rights reserved.</p>
+        </div>
+    </footer>
 @endsection

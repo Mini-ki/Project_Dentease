@@ -7,63 +7,60 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Admin;
-use App\Models\User; 
+use App\Models\Admin; // Pastikan model Admin diimpor
+use App\Models\User;  // Pastikan model User diimpor
 
 class AdminController extends Controller
 {
-    /**
-     * Menampilkan daftar admin (kecuali super_admin).
-     * Hanya bisa diakses oleh super_admin.
-     *
-     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
-     */
+    // Method untuk menampilkan semua admin (termasuk form tambah/edit jika diakses melalui link)
     public function index()
     {
-        if (!Auth::check() || Auth::user()->role !== 'super_admin') {
-            return redirect()->route('admin.dashboard')->with('error', 'Akses tidak sah. Hanya Super Admin yang dapat melihat data admin.');
+        $user = Auth::user();
+        if (!$user || $user->sub_role !== 'super_admin') {
+            return redirect()->route('admin.dashboard')->with('error', 'Akses tidak sah.');
         }
 
-        $admins = Admin::where('role', '!=', 'super_admin')->get();
+        $admins = Admin::get(); 
+        $op = 'index'; 
+        
+        $adminToEdit = new Admin();
+        $userToEdit = new User();
 
-        return view('admin.admin', compact('admins'));
+        return view('admin.admin', compact('admins', 'op', 'adminToEdit', 'userToEdit'));
     }
 
-    /**
-     * Menampilkan formulir untuk menambah admin baru.
-     * Hanya bisa diakses oleh super_admin.
-     *
-     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
-     */
+    
     public function create()
     {
-        if (!Auth::check() || Auth::user()->role !== 'super_admin') {
-            return redirect()->route('admin.dashboard')->with('error', 'Akses tidak sah. Hanya Super Admin yang dapat menambah admin.');
+        $user = Auth::user();
+        if (!$user || $user->sub_role !== 'super_admin') {
+            return redirect()->route('admin.dashboard')->with('error', 'Akses tidak sah.');
         }
 
-        return view('admin.admin_form', ['op' => 'create']);
+        $admins = Admin::get(); 
+        $op = 'create'; 
+        
+        $adminToEdit = new Admin();
+        $userToEdit = new User();
+
+        return view('admin.admin', compact('admins', 'op', 'adminToEdit', 'userToEdit'));
     }
 
-    /**
-     * Menyimpan data admin baru ke database.
-     * Hanya bisa diakses oleh super_admin.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    
     public function store(Request $request)
     {
-        if (!Auth::check() || Auth::user()->role !== 'super_admin') {
-            return redirect()->route('admin.dashboard')->with('error', 'Akses tidak sah. Hanya Super Admin yang dapat menambah admin.');
+        $user = Auth::user();
+        if (!$user || $user->sub_role !== 'super_admin') {
+            return redirect()->route('admin.dashboard')->with('error', 'Akses tidak sah.');
         }
 
         $request->validate([
             'username' => 'required|string|max:255|unique:users,username',
             'email' => 'required|string|email|max:255|unique:users,email',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:8|confirmed', // Pastikan ada password_confirmation
             'nama_admin' => 'required|string|max:255',
-            'noHp' => 'required|string|max:15',
-            'role_admin' => 'required|in:admin,operator', 
+            'noHP' => 'required|string|max:15',
+            'role_admin' => 'required|in:admin,operator',
         ]);
 
         DB::beginTransaction();
@@ -72,13 +69,13 @@ class AdminController extends Controller
                 'username' => $request->username,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role' => $request->role_admin, 
+                'role' => 'admin', 
             ]);
 
             Admin::create([
                 'id_admin' => $user->id, 
                 'nama_admin' => $request->nama_admin,
-                'noHp' => $request->noHp,
+                'noHP' => $request->noHP,
                 'role' => $request->role_admin, 
             ]);
 
@@ -90,48 +87,41 @@ class AdminController extends Controller
         }
     }
 
-    /**
-     * Menampilkan formulir untuk mengedit data admin.
-     * Hanya bisa diakses oleh super_admin.
-     *
-     * @param  int  $id_admin
-     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
-     */
     public function edit($id_admin)
     {
-        if (!Auth::check() || Auth::user()->role !== 'super_admin') {
-            return redirect()->route('admin.dashboard')->with('error', 'Akses tidak sah. Hanya Super Admin yang dapat mengedit admin.');
+        $user = Auth::user();
+        if (!$user || $user->sub_role !== 'super_admin') {
+            return redirect()->route('admin.dashboard')->with('error', 'Akses tidak sah.');
         }
 
-        $admin = Admin::where('id_admin', $id_admin)->first();
-
-        if (!$admin) {
+        $adminToEdit = Admin::where('id_admin', $id_admin)->first();
+        if (!$adminToEdit) {
             return redirect()->route('admin.admin_index')->with('error', 'Data admin tidak ditemukan.');
         }
 
-        $user = User::find($id_admin); 
+        $userToEdit = User::find($id_admin);
+        if (!$userToEdit) {
+            return redirect()->route('admin.admin_index')->with('error', 'Data user tidak ditemukan untuk admin ini.');
+        }
 
-        return view('admin.admin_form', compact('admin', 'user', 'id_admin', 'op'))->with('op', 'edit');
+        $admins = Admin::get(); 
+        $op = 'edit'; // Menunjukkan bahwa ini adalah tampilan form edit
+
+        return view('admin.admin', compact('admins', 'op', 'adminToEdit', 'userToEdit'));
     }
 
-    /**
-     * Memperbarui data admin di database.
-     * Hanya bisa diakses oleh super_admin.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id_admin
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function update(Request $request, $id_admin)
     {
-        if (!Auth::check() || Auth::user()->role !== 'super_admin') {
-            return redirect()->route('admin.dashboard')->with('error', 'Akses tidak sah. Hanya Super Admin yang dapat mengedit admin.');
+        $user = Auth::user();
+        if (!$user || $user->sub_role !== 'super_admin') {
+            return redirect()->route('admin.dashboard')->with('error', 'Akses tidak sah.');
         }
 
         $request->validate([
             'nama_admin' => 'required|string|max:255',
-            'noHp' => 'required|string|max:15',
+            'noHP' => 'required|string|max:15',
             'role_admin' => 'required|in:admin,operator',
+            'password' => 'nullable|string|min:8|confirmed', // Konfirmasi password hanya jika diisi
         ]);
 
         DB::beginTransaction();
@@ -140,7 +130,7 @@ class AdminController extends Controller
             if ($admin) {
                 $admin->update([
                     'nama_admin' => $request->nama_admin,
-                    'noHp' => $request->noHp,
+                    'noHP' => $request->noHP,
                     'role' => $request->role_admin,
                 ]);
             } else {
@@ -149,11 +139,13 @@ class AdminController extends Controller
 
             $user = User::find($id_admin);
             if ($user) {
-                $user->update([
-                    'role' => $request->role_admin,
-                ]);
+                $userDataToUpdate = ['role' => 'admin']; // Tetap set role user ke 'admin'
+                if ($request->filled('password')) { // Hanya update password jika diisi
+                    $userDataToUpdate['password'] = Hash::make($request->password);
+                }
+                $user->update($userDataToUpdate);
             } else {
-                 throw new \Exception("User data not found for admin.");
+                throw new \Exception("User data not found for admin.");
             }
 
             DB::commit();
@@ -164,29 +156,23 @@ class AdminController extends Controller
         }
     }
 
-    /**
-     * Di siin pake hapus data admin dari database.
-     * Cuma bisa diakses oleh super_admin, makanya ada role jele itu.
-     *
-     * @param  int  $id_admin
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function destroy($id_admin)
     {
-        if (!Auth::check() || Auth::user()->role !== 'super_admin') {
-            return redirect()->route('admin.dashboard')->with('error', 'Akses tidak sah. Hanya Super Admin yang dapat menghapus admin.');
+        $user = Auth::user();
+        if (!$user || $user->sub_role !== 'super_admin') {
+            return redirect()->route('admin.dashboard')->with('error', 'Akses tidak sah.');
         }
 
         DB::beginTransaction();
         try {
             $admin = Admin::where('id_admin', $id_admin)->first();
             if ($admin) {
-                $admin->delete();
+                $admin->delete(); 
             }
 
             $user = User::find($id_admin);
             if ($user) {
-                $user->delete();
+                $user->delete(); 
             }
 
             DB::commit();

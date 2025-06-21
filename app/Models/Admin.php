@@ -13,7 +13,7 @@ class Admin extends Authenticatable
     protected $primaryKey = 'id_admin';
     public $timestamps = false;
 
-    protected $fillable = ['nama_admin', 'noHP', 'role'];
+    protected $fillable = ['id_admin, nama_admin', 'noHP', 'role'];
     protected $casts = ['role' => 'string'];
 
     protected $guard = 'admin';
@@ -48,7 +48,10 @@ class Admin extends Authenticatable
     {
         return $this->belongsTo(User::class, 'id_admin', 'id_user');
     }
-    
+    public function userAccount()
+    {
+        return $this->belongsTo(User::class, 'id_admin', 'id');
+    }
 
 }
 

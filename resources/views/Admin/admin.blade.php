@@ -1,4 +1,4 @@
-@extends('layouts.Admin.admin') 
+@extends('layouts.Admin.admin')
 @section('title', 'Data Admin')
 
 @section('content')
@@ -7,7 +7,7 @@
             <h1>ADMIN</h1>
             <ul class="breadcrumb">
                 <li>
-                    <a href="{{ route('admin.dashboard') }}">Admin</a>
+                    <a href="{{ route('admin.admin_index') }}">Admin</a>
                 </li>
                 <li><i class='bx bx-chevron-right'></i></li>
                 <li>
@@ -16,6 +16,8 @@
             </ul>
         </div>
         <div class="right">
+            {{-- Tombol 'Tambah Admin Baru' akan selalu muncul.
+                 Jika Anda ingin hanya muncul saat $op='index', tambahkan kondisi if --}}
             <a href="{{ route('admin.admin_create') }}" class="btn-download">
                 <i class='bx bxs-add-to-queue'></i>
                 <span class="text">Tambah Admin Baru</span>
@@ -35,8 +37,99 @@
         </div>
     @endif
 
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="table-data">
+        {{-- Form Tambah/Edit Admin --}}
         <div class="order">
+            <div class="head">
+                <h3>
+                    @if(isset($op) && $op == 'edit')
+                        EDIT DATA ADMIN
+                    @else
+                        TAMBAH DATA ADMIN
+                    @endif
+                </h3>
+            </div>
+            <div class="body">
+                {{-- Arahkan form ke route store untuk create, atau update untuk edit --}}
+                <form action="{{ (isset($op) && $op == 'edit') ? route('admin.admin_update', $adminToEdit->id_admin) : route('admin.admin_store') }}" method="POST">
+                    @csrf
+                    @if(isset($op) && $op == 'edit')
+                        @method('PUT')
+                    @endif
+
+                    {{-- Field username dan email hanya muncul saat mode 'create' --}}
+                    @if(isset($op) && $op == 'create')
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" name="username" id="username" value="{{ old('username', $userToEdit->username ?? '') }}" required>
+                            @error('username')<div class="text-danger">{{ $message }}</div>@enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" id="email" value="{{ old('email', $userToEdit->email ?? '') }}" required>
+                            @error('email')<div class="text-danger">{{ $message }}</div>@enderror
+                        </div>
+                    @endif
+
+                    {{-- Field password dan konfirmasi password --}}
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        {{-- Required hanya saat create, kosong saat edit (opsional) --}}
+                        <input type="password" class="form-control" id="password" name="password" {{ (isset($op) && $op == 'create') ? 'required' : '' }}>
+                        @if(isset($op) && $op == 'edit')
+                            <small class="text-muted">Biarkan kosong jika tidak ingin mengubah password.</small>
+                        @endif
+                        @error('password')<div class="text-danger">{{ $message }}</div>@enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
+                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" {{ (isset($op) && $op == 'create') ? 'required' : '' }}>
+                        @error('password_confirmation')<div class="text-danger">{{ $message }}</div>@enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nama_admin" class="form-label">Nama Admin</label>
+                        <input type="text" class="form-control" name="nama_admin" id="nama_admin" value="{{ old('nama_admin', $adminToEdit->nama_admin ?? '') }}" required>
+                        @error('nama_admin')<div class="text-danger">{{ $message }}</div>@enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="noHP" class="form-label">No Hp</label>
+                        <input type="text" class="form-control" name="noHP" id="noHP" value="{{ old('noHP', $adminToEdit->noHP ?? '') }}" required>
+                        @error('noHP')<div class="text-danger">{{ $message }}</div>@enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="role_admin" class="form-label">Role</label>
+                        <select id="role_admin" name="role_admin" class="form-select" required>
+                            <option value="">-- Pilih Role --</option>
+                            <option value="admin" {{ (old('role_admin', $adminToEdit->role ?? '') == 'admin') ? 'selected' : '' }}>Admin</option>
+                            <option value="operator" {{ (old('role_admin', $adminToEdit->role ?? '') == 'operator') ? 'selected' : '' }}>Operator</option>
+                        </select>
+                        @error('role_admin')<div class="text-danger">{{ $message }}</div>@enderror
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">SUBMIT</button>
+                    {{-- Tombol Batal akan muncul jika mode bukan 'index' --}}
+                    @if(isset($op) && ($op == 'create' || $op == 'edit'))
+                        <a href="{{ route('admin.admin_index') }}" class="btn btn-secondary">BATAL</a>
+                    @endif
+                </form>
+            </div>
+        </div>
+
+        {{-- Tabel Data Admin: SELALU TAMPIL --}}
+        <div class="order" style="margin-top: 20px;">
             <div class="head">
                 <h3>DATA ADMIN</h3>
             </div>
@@ -52,22 +145,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($admins as $admin)
+                        @forelse($admins as $adminItem)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $admin->nama_admin }}</td>
-                                <td>{{ $admin->noHp }}</td>
-                                <td>{{ $admin->role }}</td>
+                                <td>{{ $adminItem->nama_admin }}</td>
+                                <td>{{ $adminItem->noHP }}</td>
+                                <td>{{ $adminItem->role }}</td>
                                 <td class="nowrap">
-                                    <a href="{{ route('admin.admin_edit', $admin->id_admin) }}" class="btn btn-warning btn-sm">Edit</a>
-                                    <form action="{{ route('admin.admin_destroy', $admin->id_admin) }}" method="POST" style="display:inline-block;">
+                                    <a href="{{ route('admin.admin_edit', $adminItem->id_admin) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ route('admin.admin_destroy', $adminItem->id_admin) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Delete</button>
                                     </form>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center">Tidak ada data admin yang ditemukan.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

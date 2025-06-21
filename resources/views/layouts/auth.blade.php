@@ -3,8 +3,7 @@
 <head>
     <title>@yield('title')</title>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -51,39 +50,7 @@
 
     @yield('content')
 
-    <footer id="footer" style="margin-top: 200px;">
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3>About us</h3>
-                <p>Dentease adalah tempat perawatan gigi terbaik di Jogja dengan
-                pelayanan modern dan tenaga medis berpengalaman.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Our contact</h3>
-                <p><strong>Alamat:</strong> Jl. Informatika Alamat No. 23, Kota Yogyakarta</p>
-                <p><strong>Telepon:</strong> F1D02310107</p>
-                <p><strong>Email:</strong> <a href="mailto:f1d02310107@student.unram.ac.id">f1d02310107@student.unram.ac.id</a></p>
-            </div>
-            <div class="footer-section">
-                <h3>Location</h3>
-                <iframe src="https://www.google.com/maps/embed?pb=..."
-                        style="width: 250.4px; height: 150.4px; border: none; border-radius: 20px;">
-                </iframe>
-            </div>
-            <div class="footer-section">
-                <h3>Follow us!</h3>
-                <ul class="social-media">
-                    <li><a href="https://facebook.com" target="_blank">Facebook</a></li>
-                    <li><a href="https://twitter.com" target="_blank">Twitter</a></li>
-                    <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
-                    <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2025 Dentease | All rights reserved.</p>
-        </div>
-    </footer>
+    
 
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
     @yield('scripts')

@@ -13,7 +13,7 @@ class Feed extends Model
     protected $fillable = ['judul_feed', 'deskripsi', 'image', 'id_admin', 'created_at', 'update_at'];
 
     protected $casts = [
-        'image' => 'binary', 
+        'image' => 'string', // Assuming image is stored as a base64 string
         'created_at' => 'datetime',
         'update_at' => 'datetime',
     ];
