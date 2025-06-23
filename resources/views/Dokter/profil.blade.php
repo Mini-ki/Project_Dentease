@@ -1,7 +1,9 @@
 @extends('layouts.dokter.dokter')
 
 @section('title', 'Profil Dokter - DENTEASE')
-
+@section('additional-css')
+    <link rel="stylesheet" href="{{ asset('css/dokter/profil.css') }}">
+@endsection
 @section('content')
     <div class="head-title">
         <div class="left">

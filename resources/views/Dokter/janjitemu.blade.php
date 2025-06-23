@@ -41,7 +41,7 @@
             @forelse ($konsultasi as $data)
                 <tr>
                     <td>{{ $no++ }}</td>
-                    <td>{{ $data->nama_lengkap }}</td>
+                    <td>{{ $data->pasien->nama_lengkap }}</td>
                     <td>{{ \Carbon\Carbon::parse($data->tanggal_konsultasi)->format('d M Y') }}</td>
                     <td>{{ $data->keluhan }}</td>
                     <td>{{ $data->status }}</td> {{-- Tampilkan status --}}

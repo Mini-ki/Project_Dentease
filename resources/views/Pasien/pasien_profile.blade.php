@@ -89,17 +89,6 @@
 @section('banner-description', 'Kelola informasi pribadi Anda di sini.')
 
 @section('content')
-    <div class="head-title">
-        <div class="left">
-            <h1>Profil Pasien</h1>
-            <ul class="breadcrumb">
-                <li><a href="{{ route('pasien.homepage') }}">Dashboard</a></li>
-                <li><i class='bx bx-chevron-right'></i></li>
-                <li><a class="active" href="{{ route('profile') }}">Profil Pasien</a></li>
-            </ul>
-        </div>
-    </div>
-
     @if (session('success'))
         <div class="alert alert-success mt-3">
             {{ session('success') }}
@@ -123,7 +112,7 @@
     <div class="profile-container">
         <div class="profile-photo">
             <div>
-                <img src="{{ asset('assets/image/' . ($pasien->foto_profil ?? 'default.jpg')) }}" alt="Foto Profil Pasien">
+                <img src="{{ asset('img/' . ($pasien->foto_profil ?? 'default.jpg')) }}" alt="Foto Profil Pasien" style="margin-left: 135px;">
                 <p style="margin-top: 10px; font-weight: bold;">{{ $pasien->nama_lengkap ?? 'Nama Lengkap Pasien' }}</p>
             </div>
         </div>

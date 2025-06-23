@@ -27,7 +27,7 @@
                 <img src="{{ asset('img/DokterProfile.jpg') }}" alt="Dokter Profile Picture">
             </a>
             <a href="{{ route('dokter.dashboard') }}" class="logoDentease">
-                <span class="text">DENTEASE Dokter</span>
+                <span class="text">DENTEASE</span>
             </a>
         </div>
         <ul class="side-menu top">
@@ -90,7 +90,7 @@
         </nav>
 
         <main>
-            @yield('content') {{-- Ini adalah tempat konten spesifik halaman akan dimasukkan --}}
+            @yield('content') 
         </main>
     </section>
 
