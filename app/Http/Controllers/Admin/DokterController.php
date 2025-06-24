@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Dokter;
-use App\Models\LayananDokter; 
-use App\Models\User; 
+use App\Models\LayananDokter;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB; // Pkae eloquent tapi tetep perlu ini buat transaksi database
-use App\Models\Konsultasi; 
+use App\Models\Konsultasi;
 
 class DokterController extends Controller
 {
@@ -18,7 +18,8 @@ class DokterController extends Controller
     {
         $role = Auth::user()->role;
         $dokters = Dokter::query();
-        $layanans = LayananDokter::orderBy('id_layanan')->get(); 
+        $op = 'index';
+        $layanans = LayananDokter::orderBy('id_layanan')->get();
 
         if ($request->has('searchInput') && !empty($request->searchInput)) {
             $searchInput = $request->searchInput;
@@ -31,30 +32,30 @@ class DokterController extends Controller
             $dokters->where('spesialis', $filter);
         }
 
-        $dokters = $dokters->orderBy('id_dokter')->get(); 
+        $dokters = $dokters->orderBy('id_dokter')->get();
 
-        
+
         $distinctSpesialis = Dokter::distinct()->pluck('spesialis');
 
-        return view('admin.dokter', compact('dokters', 'role', 'layanans', 'distinctSpesialis'));
+        return view('admin.dokter', compact('dokters', 'op', 'role', 'layanans', 'distinctSpesialis'));
     }
 
     public function create()
     {
         $user = Auth::user();
-        $userRole = $user->role; 
+        $userRole = $user->role;
         if (!$user || !in_array($userRole, ['super_admin', 'admin'])) {
             return redirect()->route('admin.dashboard')->with('error', 'Anda tidak memiliki izin untuk mengakses halaman ini.');
         }
 
         $layanans = LayananDokter::all();
-        return view('admin.dokter_form', compact('userRole', 'layanans'));
+        return view('admin.dokter', compact('userRole', 'layanans'));
     }
 
     public function store(Request $request)
     {
         $user = Auth::user();
-        $userRole = $user->role; 
+        $userRole = $user->role;
         if (!$user || !in_array($userRole, ['super_admin', 'admin'])) {
             return redirect()->route('admin.dashboard')->with('error', 'Anda tidak memiliki izin untuk mengakses halaman ini.');
         }
@@ -81,11 +82,11 @@ class DokterController extends Controller
                 'username' => $request->username,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role' => 'dokter', 
+                'role' => 'dokter',
             ]);
 
             Dokter::create([
-                'id_dokter' => $user->id, 
+                'id_dokter' => $user->id,
                 'nama_panggilan' => $request->nama_panggilan,
                 'nama_lengkap' => $request->nama_lengkap,
                 'umur' => $request->umur,
@@ -107,7 +108,7 @@ class DokterController extends Controller
     public function edit($id_dokter)
     {
         $user = Auth::user();
-        $userRole = $user->role; 
+        $userRole = $user->role;
         if (!$user || !in_array($userRole, ['super_admin', 'admin'])) {
             return redirect()->route('admin.dashboard')->with('error', 'Anda tidak memiliki izin untuk mengakses halaman ini.');
         }
@@ -120,13 +121,13 @@ class DokterController extends Controller
 
         $layanans = LayananDokter::all();
 
-        return view('admin.dokter_form', compact('dokter', 'userRole', 'layanans'));
+        return view('admin.dokter', compact('dokter', 'userRole', 'layanans'));
     }
 
     public function update(Request $request, $id_dokter)
     {
         $user = Auth::user();
-        $userRole = $user->role; 
+        $userRole = $user->role;
         if (!$user || !in_array($userRole, ['super_admin', 'admin'])) {
             return redirect()->route('admin.dashboard')->with('error', 'Anda tidak memiliki izin untuk mengakses halaman ini.');
         }
@@ -168,7 +169,7 @@ class DokterController extends Controller
     public function destroy($id_dokter)
     {
         $user = Auth::user();
-        $userRole = $user->role; 
+        $userRole = $user->role;
         if (!$user || !in_array($userRole, ['super_admin', 'admin'])) {
             return redirect()->route('admin.dashboard')->with('error', 'Anda tidak memiliki izin untuk mengakses halaman ini.');
         }
@@ -183,8 +184,8 @@ class DokterController extends Controller
             Dokter::where('id_dokter', $id_dokter)->delete();
 
             // Hapus user yang terkait
-            User::where('id_user', $id_dokter)->delete(); 
-            
+            User::where('id_user', $id_dokter)->delete();
+
             DB::commit();
             return redirect()->route('admin.dokter')->with('sukses', 'Berhasil hapus data');
 

@@ -15,14 +15,6 @@
                 </li>
             </ul>
         </div>
-        <div class="right">
-            {{-- Tombol 'Tambah Admin Baru' akan selalu muncul.
-                 Jika Anda ingin hanya muncul saat $op='index', tambahkan kondisi if --}}
-            <a href="{{ route('admin.admin_create') }}" class="btn-download">
-                <i class='bx bxs-add-to-queue'></i>
-                <span class="text">Tambah Admin Baru</span>
-            </a>
-        </div>
     </div>
 
     @if(session('success'))
@@ -49,7 +41,7 @@
 
     <div class="table-data">
         {{-- Form Tambah/Edit Admin --}}
-        <div class="order">
+        <div class="createData">
             <div class="head">
                 <h3>
                     @if(isset($op) && $op == 'edit')
@@ -68,73 +60,65 @@
                     @endif
 
                     {{-- Field username dan email hanya muncul saat mode 'create' --}}
-                    @if(isset($op) && $op == 'create')
-                        <div class="mb-3">
+                    @if(isset($op) && $op != 'edit')
+
                             <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" name="username" id="username" value="{{ old('username', $userToEdit->username ?? '') }}" required>
+                            <input type="text" name="username" id="username" value="{{ old('username', $userToEdit->username ?? '') }}" required>
                             @error('username')<div class="text-danger">{{ $message }}</div>@enderror
-                        </div>
-                        <div class="mb-3">
+
+
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" id="email" value="{{ old('email', $userToEdit->email ?? '') }}" required>
+                            <input type="email" name="email" id="email" value="{{ old('email', $userToEdit->email ?? '') }}" required>
                             @error('email')<div class="text-danger">{{ $message }}</div>@enderror
-                        </div>
+
                     @endif
 
                     {{-- Field password dan konfirmasi password --}}
-                    <div class="mb-3">
+
                         <label for="password" class="form-label">Password</label>
                         {{-- Required hanya saat create, kosong saat edit (opsional) --}}
-                        <input type="password" class="form-control" id="password" name="password" {{ (isset($op) && $op == 'create') ? 'required' : '' }}>
+                        <input type="password" id="password" name="password" {{ (isset($op) && $op == 'create') ? 'required' : '' }}>
                         @if(isset($op) && $op == 'edit')
                             <small class="text-muted">Biarkan kosong jika tidak ingin mengubah password.</small>
                         @endif
                         @error('password')<div class="text-danger">{{ $message }}</div>@enderror
-                    </div>
-                    <div class="mb-3">
+
                         <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" {{ (isset($op) && $op == 'create') ? 'required' : '' }}>
+                        <input type="password" id="password_confirmation" name="password_confirmation" {{ (isset($op) && $op == 'create') ? 'required' : '' }}>
                         @error('password_confirmation')<div class="text-danger">{{ $message }}</div>@enderror
-                    </div>
 
-                    <div class="mb-3">
+
                         <label for="nama_admin" class="form-label">Nama Admin</label>
-                        <input type="text" class="form-control" name="nama_admin" id="nama_admin" value="{{ old('nama_admin', $adminToEdit->nama_admin ?? '') }}" required>
+                        <input type="text" name="nama_admin" id="nama_admin" value="{{ old('nama_admin', $adminToEdit->nama_admin ?? '') }}" required>
                         @error('nama_admin')<div class="text-danger">{{ $message }}</div>@enderror
-                    </div>
 
-                    <div class="mb-3">
+
                         <label for="noHP" class="form-label">No Hp</label>
-                        <input type="text" class="form-control" name="noHP" id="noHP" value="{{ old('noHP', $adminToEdit->noHP ?? '') }}" required>
+                        <input type="text" name="noHP" id="noHP" value="{{ old('noHP', $adminToEdit->noHP ?? '') }}" required>
                         @error('noHP')<div class="text-danger">{{ $message }}</div>@enderror
-                    </div>
 
-                    <div class="mb-3">
+
                         <label for="role_admin" class="form-label">Role</label>
-                        <select id="role_admin" name="role_admin" class="form-select" required>
+                        <select id="role_admin" name="role_admin" required>
                             <option value="">-- Pilih Role --</option>
                             <option value="admin" {{ (old('role_admin', $adminToEdit->role ?? '') == 'admin') ? 'selected' : '' }}>Admin</option>
                             <option value="operator" {{ (old('role_admin', $adminToEdit->role ?? '') == 'operator') ? 'selected' : '' }}>Operator</option>
                         </select>
                         @error('role_admin')<div class="text-danger">{{ $message }}</div>@enderror
-                    </div>
 
                     <button type="submit" class="btn btn-primary">SUBMIT</button>
-                    {{-- Tombol Batal akan muncul jika mode bukan 'index' --}}
-                    @if(isset($op) && ($op == 'create' || $op == 'edit'))
-                        <a href="{{ route('admin.admin_index') }}" class="btn btn-secondary">BATAL</a>
-                    @endif
+                    <a href="{{ route('admin.admin_index') }}" class="btn btn-secondary">BATAL</a>
                 </form>
             </div>
         </div>
 
         {{-- Tabel Data Admin: SELALU TAMPIL --}}
-        <div class="order" style="margin-top: 20px;">
+        <div class="showTable">
             <div class="head">
                 <h3>DATA ADMIN</h3>
             </div>
             <div class="body">
-                <table>
+                <table id="table-information">
                     <thead>
                         <tr>
                             <th scope="col">NO</th>

@@ -4,26 +4,24 @@
 <title>@yield('title')</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <link href="{{ asset('css/Dokter/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/Dokter/dashboard.css') }}" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('css/Admin/dashboard.css') }}" rel="stylesheet">
 </head>
-     
+
 <body>
     <section id="sidebar">
         <div class="head">
             <a href="{{ route('admin.admin_index') }}" class="profile">
-                <img src="{{ asset('img/AdminSimpelah.jpg') }}">
+                <img src="{{ asset('img/admin/AdminDentease.jpeg') }}">
             </a>
             <a href="{{ route('admin.dashboard') }}" class="logoDentease">
                 <span class="text">DENTEASE</span>
             </a>
         </div>
         <ul class="side-menu top">
-            <li class="active"> 
+            <li class="active">
                 <a href="{{ route('admin.dashboard') }}">
                     <i class='bx bxs-dashboard'></i>
                     <span class="text">Dashboard</span>

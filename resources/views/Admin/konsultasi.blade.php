@@ -50,6 +50,8 @@
             <div class="head">
                 <h3>DATA KONSULTASI</h3>
                 <div class="header-actions">
+                    <i class='bx bx-search' ></i>
+                    <i class='bx bx-filter' ></i>
                     <form id="searchForm" action="{{ route('admin.konsultasi') }}" method="GET">
                         <div class="form-input">
                             <input type="search" name="searchInput" id="searchInput" placeholder="Search..." value="{{ request('searchInput') }}">

@@ -4,16 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable; 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Admin extends Authenticatable 
+class Admin extends Authenticatable
 {
     use HasFactory, Notifiable;
     protected $table = 'admin';
     protected $primaryKey = 'id_admin';
     public $timestamps = false;
 
-    protected $fillable = ['id_admin, nama_admin', 'noHP', 'role'];
+    protected $fillable = ['id_admin', 'nama_admin', 'noHP', 'role'];
     protected $casts = ['role' => 'string'];
 
     protected $guard = 'admin';

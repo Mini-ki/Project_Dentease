@@ -126,26 +126,28 @@
             <div class="head">
                 <h3>JADWAL DOKTER</h3>
                 <div class="header-actions">
-                    <form id="searchForm" action="{{ route('admin.layanan') }}" method="GET" class="form-input">
-                        <input type="search" name="searchInput" id="searchInput" placeholder="Search..." value="{{ request('searchInput') }}">
-                        <button type="submit"><i class='bx bx-search' style="color:#FFFFFF"></i></button>
-                    </form>
+                    <i class='bx bx-search' ></i>
+                    <i class='bx bx-filter' ></i>
                     <div class="boxFilter">
                         <form action="{{ route('admin.layanan') }}" method="GET">
-                            @if(request('searchInput'))
-                                <input type="hidden" name="searchInput" value="{{ request('searchInput') }}">
-                            @endif
-                            <select id="filter" onchange="this.form.submit()" name="filter" style="width: 100%; padding: 5px; border: 1px solid; border-radius: 5px; font-size: 12px;">
-                                <option value="">-- Pilih Hari --</option>
-                                <option value="Senin" {{ request('filter') == 'Senin' ? 'selected' : '' }}>Senin</option>
-                                <option value="Selasa" {{ request('filter') == 'Selasa' ? 'selected' : '' }}>Selasa</option>
-                                <option value="Rabu" {{ request('filter') == 'Rabu' ? 'selected' : '' }}>Rabu</option>
-                                <option value="Kamis" {{ request('filter') == 'Kamis' ? 'selected' : '' }}>Kamis</option>
-                                <option value="Jumat" {{ request('filter') == 'Jumat' ? 'selected' : '' }}>Jumat</option>
-                                {{-- Tambahkan hari lain jika perlu --}}
+                                <select id="filter" onchange="this.form.submit()" name="filter" style="width: 100%; padding: 5px; border: 1px solid; border-radius: 5px; font-size: 12px;">
+                                    <option value="">-- Pilih Hari --</option>
+                                    <option value="Senin" {{ request('filter') == 'Senin' ? 'selected' : '' }}>Senin</option>
+                                    <option value="Selasa" {{ request('filter') == 'Selasa' ? 'selected' : '' }}>Selasa</option>
+                                    <option value="Rabu" {{ request('filter') == 'Rabu' ? 'selected' : '' }}>Rabu</option>
+                                    <option value="Kamis" {{ request('filter') == 'Kamis' ? 'selected' : '' }}>Kamis</option>
+                                    <option value="Jumat" {{ request('filter') == 'Jumat' ? 'selected' : '' }}>Jumat</option>
+                                    {{-- Tambahkan hari lain jika perlu --}}
+                                </select>
                             </select>
                         </form>
                     </div>
+                    <form id="searchForm" action="{{ route('admin.layanan') }}" method="GET">
+                        <div class="form-input">
+                            <input type="search" name="searchInput" id="searchInput" placeholder="Search..." value="{{ request('searchInput') }}">
+                            <button type="submit"><i class='bx bx-search' style="color:#FFFFFF"></i></button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="body">

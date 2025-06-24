@@ -83,7 +83,7 @@
                     <label for="noHp">No Hp</label>
                     <input type="text" name="noHp" id="noHp" value="{{ old('noHp', $pasien->noHp ?? '') }}" required>
                     @error('noHp') <div class="text-danger">{{ $message }}</div> @enderror
-                    
+
                     <input type="submit" value="SUBMIT" name="submit">
                 </form>
             </div>
@@ -91,10 +91,14 @@
         <div class="showTable">
             <div class="head" style="display:block">
                 <h3>DATA PASIEN</h3>
+                <i class='bx bx-search' ></i>
+                <i class='bx bx-filter' ></i>
                 <div class="header-actions"> {{-- Gabungkan search dan filter --}}
-                    <form id="searchForm" action="{{ route('admin.pasien') }}" method="GET" class="form-input">
-                        <input type="search" name="searchInput" id="searchInput" placeholder="Search..." value="{{ request('searchInput') }}">
-                        <button type="submit"><i class='bx bx-search' style="color:#FFFFFF"></i></button>
+                    <form id="searchForm" action="{{ route('admin.pasien') }}" method="GET">
+                        <div class="form-input">
+                            <input type="search" name="searchInput" id="searchInput" placeholder="Search..." value="{{ request('searchInput') }}">
+                            <button type="submit"><i class='bx bx-search' style="color:#FFFFFF"></i></button>
+                        </div>
                     </form>
                     <div class="boxFilter">
                         <form action="{{ route('admin.pasien') }}" method="GET">
@@ -147,7 +151,7 @@
                                 </td>
                                 <td scope="row" class="nowrap" >
                                     <a href="{{ route('admin.pasien', ['op' => 'edit', 'id_pasien' => $data->id_pasien]) }}"><button type="button" id="button-edit">Edit</button></a>
-                                    <a href="{{ route('admin.pasien', ['op' => 'delete', 'id_pasien' => $data->id_pasien]) }}" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data Ini??')"><button type="button" id="button-delete">Delete</button></a>       
+                                    <a href="{{ route('admin.pasien', ['op' => 'delete', 'id_pasien' => $data->id_pasien]) }}" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data Ini??')"><button type="button" id="button-delete">Delete</button></a>
                                 </td>
                             </tr>
                         @empty

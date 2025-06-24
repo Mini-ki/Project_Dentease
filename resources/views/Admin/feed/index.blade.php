@@ -1,6 +1,7 @@
 @extends('layouts.admin.admin')
 
 @section('title', 'Feed Management')
+
 @section('page_title', 'FEED')
 @section('breadcrumb_parent', 'Feed')
 @section('breadcrumb_child', 'Data Feed')
@@ -26,13 +27,13 @@
                     <p style="color: red;">{{ $message }}</p>
                 @enderror
                 <br>
-        
+
                 <label for="image">Pilih Gambar</label>
                 <input type="file" class="form-control" name="image" id="image" accept="image/*">
                 @error('image')
                     <p style="color: red;">{{ $message }}</p>
                 @enderror
-                
+
                 <input type="submit" value="SUBMIT" name="submit">
             </form>
         </div>

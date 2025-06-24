@@ -20,33 +20,33 @@ class AdminController extends Controller
             return redirect()->route('admin.dashboard')->with('error', 'Akses tidak sah.');
         }
 
-        $admins = Admin::get(); 
-        $op = 'index'; 
-        
+        $admins = Admin::get();
+        $op = 'index';
+
         $adminToEdit = new Admin();
         $userToEdit = new User();
 
         return view('admin.admin', compact('admins', 'op', 'adminToEdit', 'userToEdit'));
     }
 
-    
-    public function create()
-    {
-        $user = Auth::user();
-        if (!$user || $user->sub_role !== 'super_admin') {
-            return redirect()->route('admin.dashboard')->with('error', 'Akses tidak sah.');
-        }
 
-        $admins = Admin::get(); 
-        $op = 'create'; 
-        
-        $adminToEdit = new Admin();
-        $userToEdit = new User();
+    // public function create()
+    // {
+    //     $user = Auth::user();
+    //     if (!$user || $user->sub_role !== 'super_admin') {
+    //         return redirect()->route('admin.dashboard')->with('error', 'Akses tidak sah.');
+    //     }
 
-        return view('admin.admin', compact('admins', 'op', 'adminToEdit', 'userToEdit'));
-    }
+    //     $admins = Admin::get();
+    //     $op = 'create';
 
-    
+    //     $adminToEdit = new Admin();
+    //     $userToEdit = new User();
+
+    //     return view('admin.admin', compact('admins', 'op', 'adminToEdit', 'userToEdit'));
+    // }
+
+
     public function store(Request $request)
     {
         $user = Auth::user();
@@ -69,14 +69,14 @@ class AdminController extends Controller
                 'username' => $request->username,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role' => 'admin', 
+                'role' => 'admin',
             ]);
 
             Admin::create([
-                'id_admin' => $user->id, 
+                'id_admin' => $user->id,
                 'nama_admin' => $request->nama_admin,
                 'noHP' => $request->noHP,
-                'role' => $request->role_admin, 
+                'role' => $request->role_admin,
             ]);
 
             DB::commit();
@@ -104,7 +104,7 @@ class AdminController extends Controller
             return redirect()->route('admin.admin_index')->with('error', 'Data user tidak ditemukan untuk admin ini.');
         }
 
-        $admins = Admin::get(); 
+        $admins = Admin::get();
         $op = 'edit'; // Menunjukkan bahwa ini adalah tampilan form edit
 
         return view('admin.admin', compact('admins', 'op', 'adminToEdit', 'userToEdit'));
@@ -167,12 +167,12 @@ class AdminController extends Controller
         try {
             $admin = Admin::where('id_admin', $id_admin)->first();
             if ($admin) {
-                $admin->delete(); 
+                $admin->delete();
             }
 
             $user = User::find($id_admin);
             if ($user) {
-                $user->delete(); 
+                $user->delete();
             }
 
             DB::commit();

@@ -1,6 +1,6 @@
 @extends('layouts.admin.admin')
 
-@section('title', 'Data Dokter') 
+@section('title', 'Data Dokter')
 
 @section('content')
     <div class="head-title">
@@ -16,17 +16,96 @@
                 </li>
             </ul>
         </div>
-        {{-- Tombol Tambah Data hanya untuk super_admin dan admin --}}
-        @if(Auth::check() && (Auth::user()->role === 'super_admin' || Auth::user()->role === 'admin'))
-            <a href="{{ route('admin.dokter.create') }}" class="btn-download">
-                <i class='bx bxs-cloud-download' ></i>
-                <span class="text">Tambah Data</span>
-            </a>
-        @endif
     </div>
 
     <div class="table-data">
-        <div class="order">
+        <div class="createData">
+            <div class="head">
+                <h3>
+                    @if(isset($op) && $op == 'edit')
+                        EDIT DATA DOKTER
+                    @else
+                        TAMBAH DATA DOKTER
+                    @endif
+                </h3>
+            </div>
+            <div class="body">
+                @if(session('sukses'))
+                    <div class="alert alert-success">
+                        {{ session('sukses') }}
+                    </div>
+                @endif
+                @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ isset($dokter) ? route('admin.dokter.update', $dokter->id_dokter) : route('admin.dokter.store') }}" method="POST">
+                    @csrf
+                    @if(isset($op) && $op != 'edit')
+                        @method('PUT')
+                    @endif
+
+                    @if(isset($op) && $op != 'edit')
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" name="username" id="username" value="{{ old('username', $userToEdit->username ?? '') }}" required>
+                        @error('username')<div class="text-danger">{{ $message }}</div>@enderror
+
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" name="email" id="email" value="{{ old('email', $userToEdit->email ?? '') }}" required>
+                        @error('email')<div class="text-danger">{{ $message }}</div>@enderror
+
+                        {{-- Field password dan konfirmasi password --}}
+                        <label for="password" class="form-label">Password</label>
+                        {{-- Required hanya saat create, kosong saat edit (opsional) --}}
+                        <input type="password" id="password" name="password" {{ (isset($op) && $op == 'create') ? 'required' : '' }}>
+                        @if(isset($op) && $op == 'edit')
+                        <small class="text-muted">Biarkan kosong jika tidak ingin mengubah password.</small>
+                        @endif
+                        @error('password')<div class="text-danger">{{ $message }}</div>@enderror
+                    @endif
+
+                    <label for="nama_panggilan">Nama Panggilan</label>
+                    <input type="text" name="nama_panggilan" id="nama_panggilan" value="{{ old('nama_panggilan', $dokter->nama_panggilan ?? '') }}">
+
+                    <label for="nama_lengkap">Nama Lengkap</label>
+                    <input type="text" name="nama_lengkap" id="nama_lengkap" value="{{ old('nama_lengkap', $dokter->nama_lengkap ?? '') }}">
+
+                    <label for="umur">Umur</label>
+                    <input type="text" name="umur" id="umur" value="{{ old('umur', $dokter->umur ?? '') }}">
+
+                    <label for="spesialis">Spesialis</label>
+                    <input type="text" name="spesialis" id="spesialis" value="{{ old('spesialis', $dokter->spesialis ?? '') }}">
+
+                    <label for="layanan">Layanan</label>
+                    <select id="layanan" name="layanan" style="width: 100%; padding: 10px; border: 1px solid; border-radius: 5px;">
+                        <option value="">-- Pilih Layanan --</option>
+                        @foreach($layanans as $layanan)
+                            <option value="{{ $layanan->nama_layanan }}"
+                                {{ (isset($dokter) && $dokter->id_layanan == $layanan->id_layanan) || old('layanan') == $layanan->nama_layanan ? 'selected' : '' }}>
+                                {{ $layanan->nama_layanan }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <label for="alamat">Alamat</label>
+                    <input type="text" name="alamat" id="alamat" value="{{ old('alamat', $dokter->alamat ?? '') }}">
+
+                    <input type="submit" value="SUBMIT" name="submit">
+                </form>
+            </div>
+        </div>
+        <div class="showTable">
             <div class="head" style="display:block">
                 <h3>DATA DOKTER</h3>
                 {{-- Notifikasi Sukses/Error --}}
@@ -60,7 +139,7 @@
                     </div>
                 </form>
             </div>
-            <table>
+            <table id="table-information">
                 <thead>
                     <tr>
                         <th>NO</th>
