@@ -14,6 +14,7 @@ use App\Models\Konsultasi;
 
 class DokterController extends Controller
 {
+
     public function index(Request $request)
     {
         $role = Auth::user()->role;
@@ -78,7 +79,7 @@ class DokterController extends Controller
             $layanan = LayananDokter::where('nama_layanan', $request->layanan)->firstOrFail();
             $id_layanan = $layanan->id_layanan;
 
-            $user = User::create([
+            $newUser = User::create([
                 'username' => $request->username,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
@@ -86,7 +87,7 @@ class DokterController extends Controller
             ]);
 
             Dokter::create([
-                'id_dokter' => $user->id,
+                'id_dokter' => $newUser->id_user,
                 'nama_panggilan' => $request->nama_panggilan,
                 'nama_lengkap' => $request->nama_lengkap,
                 'umur' => $request->umur,
@@ -113,15 +114,19 @@ class DokterController extends Controller
             return redirect()->route('admin.dashboard')->with('error', 'Anda tidak memiliki izin untuk mengakses halaman ini.');
         }
 
-        $dokter = Dokter::where('id_dokter', $id_dokter)->first();
+        $doktertoEdit = Dokter::where('id_dokter', $id_dokter)->first();
 
-        if (!$dokter) {
+        if (!$doktertoEdit) {
             return redirect()->route('admin.dokter')->with('error', 'Data dokter tidak ditemukan.');
         }
 
         $layanans = LayananDokter::all();
 
-        return view('admin.dokter', compact('dokter', 'userRole', 'layanans'));
+        $dokters = Dokter::orderBy('id_dokter')->get();
+        $distinctSpesialis = Dokter::distinct()->pluck('spesialis');
+        $op = 'edit';
+
+        return view('admin.dokter', compact('doktertoEdit', 'dokters','userRole', 'layanans', 'distinctSpesialis', 'op'));
     }
 
     public function update(Request $request, $id_dokter)

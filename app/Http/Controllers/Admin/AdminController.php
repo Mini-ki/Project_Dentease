@@ -65,15 +65,15 @@ class AdminController extends Controller
 
         DB::beginTransaction();
         try {
-            $user = User::create([
+            $newUser = User::create([
                 'username' => $request->username,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'role' => 'admin',
             ]);
-
+            
             Admin::create([
-                'id_admin' => $user->id,
+                'id_admin' => $newUser->id_user,
                 'nama_admin' => $request->nama_admin,
                 'noHP' => $request->noHP,
                 'role' => $request->role_admin,

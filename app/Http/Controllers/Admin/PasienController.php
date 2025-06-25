@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash; 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;   // Untuk transaksi manual jika diperlukan, atau Eloquent transactions
-use App\Models\User;   
-use App\Models\Pasien; 
-use App\Models\Konsultasi; 
+use App\Models\User;
+use App\Models\Pasien;
+use App\Models\Konsultasi;
 
 class PasienController extends Controller
 {
@@ -20,7 +20,7 @@ class PasienController extends Controller
     {
         $userRole = Auth::user()->role;
 
-        $pasien = null; 
+        $pasien = null;
         $id_pasien = null;
         $error = "";
         $sukses = "";
@@ -33,7 +33,7 @@ class PasienController extends Controller
             switch ($op) {
                 case 'delete':
                     try {
-                        DB::beginTransaction();  
+                        DB::beginTransaction();
 
                         $pasienToDelete = Pasien::find($id_pasien);
 
@@ -42,7 +42,7 @@ class PasienController extends Controller
 
                             $pasienToDelete->delete();
 
-                            User::destroy($id_pasien); 
+                            User::destroy($id_pasien);
 
                             DB::commit();
                             $sukses = "Berhasil hapus data pasien dan user terkait.";
@@ -50,7 +50,7 @@ class PasienController extends Controller
                             $error = "Data pasien tidak ditemukan.";
                         }
                     } catch (\Exception $e) {
-                        DB::rollBack(); 
+                        DB::rollBack();
                         $error = "Gagal melakukan delete data: " . $e->getMessage();
                     }
                     return redirect()->route('admin.pasien')->with(['sukses' => $sukses, 'error' => $error]);
@@ -80,9 +80,9 @@ class PasienController extends Controller
             $id_pasien_to_edit = $request->input('id_pasien_edit');
 
             try {
-                DB::beginTransaction(); 
+                DB::beginTransaction();
 
-                if ($id_pasien_to_edit) { 
+                if ($id_pasien_to_edit) {
                     $pasien = Pasien::find($id_pasien_to_edit);
                     if ($pasien) {
                         $pasien->update($request->only(['nama_panggilan', 'nama_lengkap', 'umur', 'alamat', 'noHp']));
@@ -90,59 +90,59 @@ class PasienController extends Controller
                     } else {
                         $error = "Data pasien gagal diupdate.";
                     }
-                } else { 
-                    $user = User::create([
+                } else {
+                    $newUser = User::create([
                         'username' => $request->username,
                         'email' => $request->email,
                         'password' => Hash::make($request->password),
-                        'role' => 'pasien', 
+                        'role' => 'pasien',
                     ]);
 
                     Pasien::create([
-                        'id_pasien' => $user->id, // Menggunakan ID user sebagai id_pasien
+                        'id_pasien' => $newUser->id_user, // Menggunakan ID user sebagai id_pasien
                         'nama_panggilan' => $request->nama_panggilan,
                         'nama_lengkap' => $request->nama_lengkap,
                         'umur' => $request->umur,
                         'alamat' => $request->alamat,
                         'noHp' => $request->noHp,
-                        'foto_profil' => null, 
+                        'foto_profil' => null,
                     ]);
                     $sukses = "Berhasil memasukkan data pasien baru.";
                 }
-                DB::commit();  
+                DB::commit();
             } catch (\Exception $e) {
-                DB::rollBack();  
+                DB::rollBack();
                 $error = "Gagal memproses data: " . $e->getMessage();
             }
 
             return redirect()->route('admin.pasien')->with(['sukses' => $sukses, 'error' => $error]);
         }
- 
-        $pasienQuery = Pasien::with(['user', 'latestKonsultasi']); 
-        
+
+        $pasienQuery = Pasien::with(['user', 'latestKonsultasi']);
+
         if ($request->filled('searchInput')) {
             $searchInput = $request->input('searchInput');
             $pasienQuery->where('nama_panggilan', 'LIKE', '%' . $searchInput . '%')
                         ->orWhere('nama_lengkap', 'LIKE', '%' . $searchInput . '%');
         }
 
-         
+
         if ($request->filled('filter')) {
             $filter = $request->input('filter');
             if ($filter === 'Ada') {
                 $pasienQuery->whereHas('latestKonsultasi', function ($q) {
                     $q->whereIn('status', ['Sedang Konsultasi', 'Belum']);
                 });
-            } else {  
-                $pasienQuery->whereDoesntHave('latestKonsultasi')  
+            } else {
+                $pasienQuery->whereDoesntHave('latestKonsultasi')
                             ->orWhereHas('latestKonsultasi', function ($q) {
-                                $q->where('status', 'Sudah Selesai'); 
+                                $q->where('status', 'Sudah Selesai');
                             });
             }
         }
 
-        $pasienData = $pasienQuery->orderBy('id_pasien', 'desc')->get(); 
-        
+        $pasienData = $pasienQuery->orderBy('id_pasien', 'desc')->get();
+
         $sukses = session('sukses', $sukses);
         $error = session('error', $error);
 

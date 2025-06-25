@@ -50,9 +50,9 @@
                     </div>
                 @endif
 
-                <form action="{{ isset($dokter) ? route('admin.dokter.update', $dokter->id_dokter) : route('admin.dokter.store') }}" method="POST">
+                <form action="{{ isset($op) && $op == 'edit' ? route('admin.dokter.update', $doktertoEdit->id_dokter) : route('admin.dokter.store') }}" method="POST">
                     @csrf
-                    @if(isset($op) && $op != 'edit')
+                    @if(isset($op) && $op == 'edit')
                         @method('PUT')
                     @endif
 
@@ -65,41 +65,40 @@
                         <input type="email" name="email" id="email" value="{{ old('email', $userToEdit->email ?? '') }}" required>
                         @error('email')<div class="text-danger">{{ $message }}</div>@enderror
 
-                        {{-- Field password dan konfirmasi password --}}
                         <label for="password" class="form-label">Password</label>
-                        {{-- Required hanya saat create, kosong saat edit (opsional) --}}
                         <input type="password" id="password" name="password" {{ (isset($op) && $op == 'create') ? 'required' : '' }}>
-                        @if(isset($op) && $op == 'edit')
-                        <small class="text-muted">Biarkan kosong jika tidak ingin mengubah password.</small>
-                        @endif
                         @error('password')<div class="text-danger">{{ $message }}</div>@enderror
+
+                        <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation" {{ (isset($op) && $op == 'create') ? 'required' : '' }}>
+                        @error('password_confirmation')<div class="text-danger">{{ $message }}</div>@enderror
                     @endif
 
                     <label for="nama_panggilan">Nama Panggilan</label>
-                    <input type="text" name="nama_panggilan" id="nama_panggilan" value="{{ old('nama_panggilan', $dokter->nama_panggilan ?? '') }}">
+                    <input type="text" name="nama_panggilan" id="nama_panggilan" value="{{ old('nama_panggilan', $doktertoEdit->nama_panggilan ?? '') }}">
 
                     <label for="nama_lengkap">Nama Lengkap</label>
-                    <input type="text" name="nama_lengkap" id="nama_lengkap" value="{{ old('nama_lengkap', $dokter->nama_lengkap ?? '') }}">
+                    <input type="text" name="nama_lengkap" id="nama_lengkap" value="{{ old('nama_lengkap', $doktertoEdit->nama_lengkap ?? '') }}">
 
                     <label for="umur">Umur</label>
-                    <input type="text" name="umur" id="umur" value="{{ old('umur', $dokter->umur ?? '') }}">
+                    <input type="text" name="umur" id="umur" value="{{ old('umur', $doktertoEdit->umur ?? '') }}">
 
                     <label for="spesialis">Spesialis</label>
-                    <input type="text" name="spesialis" id="spesialis" value="{{ old('spesialis', $dokter->spesialis ?? '') }}">
+                    <input type="text" name="spesialis" id="spesialis" value="{{ old('spesialis', $doktertoEdit->spesialis ?? '') }}">
 
                     <label for="layanan">Layanan</label>
                     <select id="layanan" name="layanan" style="width: 100%; padding: 10px; border: 1px solid; border-radius: 5px;">
                         <option value="">-- Pilih Layanan --</option>
                         @foreach($layanans as $layanan)
                             <option value="{{ $layanan->nama_layanan }}"
-                                {{ (isset($dokter) && $dokter->id_layanan == $layanan->id_layanan) || old('layanan') == $layanan->nama_layanan ? 'selected' : '' }}>
+                                {{ (isset($doktertoEdit) && $doktertoEdit->id_layanan == $layanan->id_layanan) || old('layanan') == $layanan->nama_layanan ? 'selected' : '' }}>
                                 {{ $layanan->nama_layanan }}
                             </option>
                         @endforeach
                     </select>
 
                     <label for="alamat">Alamat</label>
-                    <input type="text" name="alamat" id="alamat" value="{{ old('alamat', $dokter->alamat ?? '') }}">
+                    <input type="text" name="alamat" id="alamat" value="{{ old('alamat', $doktertoEdit->alamat ?? '') }}">
 
                     <input type="submit" value="SUBMIT" name="submit">
                 </form>
