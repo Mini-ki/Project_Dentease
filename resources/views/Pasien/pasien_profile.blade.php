@@ -39,7 +39,7 @@
             margin-bottom: 20px;
         }
         .form-field {
-            flex: 1 1 calc(50% - 10px); 
+            flex: 1 1 calc(50% - 10px);
             display: flex;
             flex-direction: column;
         }
@@ -111,8 +111,11 @@
 
     <div class="profile-container">
         <div class="profile-photo">
+            @php
+                $imagePath = 'storage/' . ($pasien->foto_profil);
+            @endphp
             <div>
-                <img src="{{ asset('img/' . ($pasien->foto_profil ?? 'default.jpg')) }}" alt="Foto Profil Pasien" style="margin-left: 135px;">
+                <img src="{{ asset($imagePath ?? 'default.jpg') }}" alt="Foto Profil Pasien" style="margin-left: 135px;">
                 <p style="margin-top: 10px; font-weight: bold;">{{ $pasien->nama_lengkap ?? 'Nama Lengkap Pasien' }}</p>
             </div>
         </div>
