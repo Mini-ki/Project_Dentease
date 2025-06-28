@@ -18,7 +18,7 @@
 <div class="grid-container" style="margin-bottom: 200px;">
     @forelse ($dokterList as $dokter)
         <div class="card">
-            <img src="{{ asset('assets/img/dokter-default.png') }}" alt="Foto Dokter">
+            <img src="{{ asset('img/dokter-default.png') }}" alt="Foto Dokter">
             <div class="info">
                 <h4>{{ $dokter->nama_panggilan }}</h4>
                 <p><em>{{ $dokter->spesialis }}</em></p>
