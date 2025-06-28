@@ -1,25 +1,25 @@
-@extends('layouts.auth') 
+@extends('layouts.auth')
 @section('title', 'Dentease - Klinik Kesehatan Gigi Terbaik')
 
 @section('additional-css')
     <link rel="stylesheet" href="{{ asset('css/stylesJadwal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/stylesHomepage.css') }}">
     <link rel="stylesheet" href="{{ asset('css/grid.css') }}">
-    
+
 @endsection
 
 
 @section('content')
     <div class="container" style="top: 100px; margin-bottom: 180px;">
         <div class="text-container">
-            <h1 style="left: 5px;"><b>Klinik Kesehatan Gigi</b></h1>
+            <p class="motivation" style="font-size: 55px"> <strong>Smile Brighter, Live Healthier</strong>—Your Dental Future Starts <strong>Today!!</strong></p>
             <p>
                 Sistem informasi manajemen klinik kesehatan gigi terbaik di kelas Pemweb-D angkatan 2023.
             </p>
         </div>
-        
-        <img src="{{ asset('img/doc9.jpg') }}">
+        <img src="{{ asset('img/Dental Health.jpg') }}">
     </div>
+
 
     <div class="grid-container">
     @if ($artikel->isNotEmpty())
@@ -116,7 +116,7 @@
             @endforeach
         </div>
     </div>
-    
+
     <div class="text-center mb-4">
         <h2 class="text-primary" style="font-family: 'Oswald', sans-serif; color: #002A8C;">Frequently Asked Questions (FAQ)</h2>
         <p class="text-muted" style="text-align: center;">Pertanyaan yang sering diajukan oleh pasien Dentease</p>

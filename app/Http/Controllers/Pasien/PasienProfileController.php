@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Pasien;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Pasien;
-use App\Models\User; 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -12,10 +12,11 @@ use Illuminate\Support\Facades\DB;
 
 class PasienProfileController extends Controller
 {
+
     public function index()
     {
-        $userId = Auth::id(); 
-        
+        $userId = Auth::id();
+
         $user = User::find($userId);
 
         $pasien = Pasien::where('id_pasien', $userId)->first();
@@ -24,13 +25,13 @@ class PasienProfileController extends Controller
             return redirect()->back()->with('error', 'Data profil pasien Anda belum lengkap. Silakan hubungi admin atau lengkapi data Anda.');
         }
 
-        return view('pasien.pasien_profile', compact('pasien', 'user')); 
+        return view('pasien.pasien_profile', compact('pasien', 'user'));
     }
 
     public function update(Request $request)
     {
         $userId = Auth::id();
-        $user = User::find($userId); 
+        $user = User::find($userId);
         $pasien = Pasien::where('id_pasien', $userId)->firstOrFail();
 
         $userPrimaryKeyColumn = 'id_user';
@@ -43,7 +44,7 @@ class PasienProfileController extends Controller
             'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'email' => 'required|string|email|max:255|unique:users,email,' . $userId . ',' . $userPrimaryKeyColumn,
             'username' => 'nullable|string|max:255|unique:users,username,' . $userId . ',' . $userPrimaryKeyColumn,
-            'password' => 'nullable|string|min:8|confirmed', 
+            'password' => 'nullable|string|min:8|confirmed',
         ];
 
         $messages = [
@@ -58,7 +59,7 @@ class PasienProfileController extends Controller
         try {
             DB::beginTransaction();
 
-            if ($user) { 
+            if ($user) {
                 $user->email = $request->email;
                 if ($request->filled('username')) {
                     $user->username = $request->username;
@@ -75,8 +76,8 @@ class PasienProfileController extends Controller
                 }
 
                 $imageName = time() . '.' . $request->foto_profil->extension();
-                $request->foto_profil->storeAs('public/img/uploads/', $imageName, 'public');
-                $pasien->foto_profil = $imageName;
+                $imagePath = $request->foto_profil->storeAs('/img/uploads/fotoprofil_pasien', $imageName, 'public');
+                $pasien->foto_profil = $imagePath;
             }
 
             $pasien->nama_lengkap = $request->nama_lengkap;

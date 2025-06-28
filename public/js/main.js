@@ -17,17 +17,20 @@ window.addEventListener('load', checkScrollFitur);
 const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
 
 function setActiveMenu() {
-    let currentPath = window.location.pathname;  
-    let currentFile = currentPath.substring(currentPath.lastIndexOf('/') + 1); 
+    let currentPath = window.location.pathname;
+    let pathSegments = currentPath.split('/').filter(Boolean);
+
+    // Ambil link ke dua
+    let currentFile = pathSegments[1] || '';
 
     console.log('Current File:', currentFile);
 
     allSideMenu.forEach(item => {
-        const li = item.parentElement;  
-        const itemHref = item.getAttribute('href');  
+        const li = item.parentElement;
+        const itemHref = item.getAttribute('href');
 
         li.classList.remove('active');
-        
+
         if (itemHref && currentFile === itemHref.split('/').pop()) {
             console.log("cek");
             li.classList.add('active');
@@ -58,19 +61,3 @@ searchMenu.addEventListener('click', function () {
     console.log('apa');
 	searchForm.classList.toggle('active');
 })
-
-function setTableHeight() {
-    console.log("setTable");
-    const formBox  = document.querySelector('.createData');
-    const tableBox = document.querySelector('.showTable');
-    if (formBox && tableBox) {
-        const h = formBox.getBoundingClientRect().height;
-        tableBox.style.height   = h + 'px';
-        tableBox.style.overflowY = 'auto';
-    }
-    }
-
-document.addEventListener('DOMContentLoaded', () => {
-    setTableHeight();            // sekali saat load
-    window.addEventListener('resize', setTableHeight); // sinkron saat resize
-});

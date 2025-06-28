@@ -99,13 +99,13 @@
 
 
                         <label for="role_admin" class="form-label">Role</label>
-                        <select id="role_admin" name="role_admin" required>
+                        <select id="role_admin" name="role_admin" class="form-select" required>
                             <option value="">-- Pilih Role --</option>
                             <option value="admin" {{ (old('role_admin', $adminToEdit->role ?? '') == 'admin') ? 'selected' : '' }}>Admin</option>
                             <option value="operator" {{ (old('role_admin', $adminToEdit->role ?? '') == 'operator') ? 'selected' : '' }}>Operator</option>
                         </select>
                         @error('role_admin')<div class="text-danger">{{ $message }}</div>@enderror
-
+                    <br style="display-top: 10px">
                     <button type="submit" class="btn btn-primary">SUBMIT</button>
                     <a href="{{ route('admin.admin_index') }}" class="btn btn-secondary">BATAL</a>
                 </form>

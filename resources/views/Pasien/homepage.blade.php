@@ -11,13 +11,12 @@
 @section('content')
     <div class="container" style="top: 100px; margin-bottom: 180px;">
         <div class="text-container">
-            <h1 style="left: 5px;"><b>Klinik Kesehatan Gigi</b></h1>
+            <p class="motivation" style="font-size: 55px"> <strong>Smile Brighter, Live Healthier</strong>—Your Dental Future Starts <strong>Today!!</strong></p>
             <p>
                 Sistem informasi manajemen klinik kesehatan gigi terbaik di kelas Pemweb-D angkatan 2023.
             </p>
         </div>
-        
-        <img src="{{ asset('img/doc9.jpg') }}">
+        <img src="{{ asset('img/Dental Health.jpg') }}">
     </div>
 
     <div class="grid-container">
@@ -48,7 +47,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <img src="{{ asset($imagePath) }}" class="img-fluid" alt="{{ htmlspecialchars($artikelItem->judul_feed) }}" style="width: 300%; height: auto; margin-bottom: 20px;">
-                                    <p class="mt-3">{{ htmlspecialchars($artikelItem->deskripsi) }}</p> 
+                                    <p class="mt-3">{{ htmlspecialchars($artikelItem->deskripsi) }}</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -114,7 +113,7 @@
             @endforeach
         </div>
     </div>
-    
+
     <div class="text-center mb-4">
         <h2 class="text-primary" style="font-family: 'Oswald', sans-serif; color: #002A8C;">Frequently Asked Questions (FAQ)</h2>
         <p class="text-muted" style="text-align: center;">Pertanyaan yang sering diajukan oleh pasien Dentease</p>
