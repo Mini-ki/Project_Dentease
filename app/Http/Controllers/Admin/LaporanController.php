@@ -7,14 +7,14 @@ use Illuminate\Http\Request;
 use App\Models\LayananDokter;
 use App\Models\Konsultasi;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
 
 class LaporanController extends Controller
 {
     public function index(Request $request)
     {
-        $user = Auth::user(); 
-        $role = $user ? $user->role : null; 
+        $user = Auth::user();
+        $role = $user ? $user->role : null;
 
         $tahun = $request->input('tahun', date('Y'));
 
@@ -122,7 +122,6 @@ class LaporanController extends Controller
                 $chartData[$bln][$l] = $chartData[$bln][$l] ?? 0;
             }
         }
-
 
         return view('admin.cetakLaporan', compact('tahun', 'layananList', 'bulanList', 'tableData', 'chartData'));
     }

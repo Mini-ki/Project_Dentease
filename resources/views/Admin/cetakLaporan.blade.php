@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CETAK LAPORAN</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         body {
-            text-align: center;
             font-family: 'Times New Roman', Times, serif;
+            text-align: center;
+            margin: 20px;
         }
         .header {
             margin-bottom: 20px;
@@ -28,13 +31,34 @@
             font-size: 12px;
             text-align: center;
         }
+
         .grafik {
             margin-top: 30px;
-            page-break-before: always; /* Ensure chart starts on new page for print */
+            page-break-inside: avoid;
         }
+
+        .table-data {
+            page-break-inside: avoid;
+        }
+
         @media print {
-            .btn {
-                display: none; /* Hide buttons when printing */
+            .btn, .no-print {
+                display: none !important;
+            }
+
+            body {
+                margin: 0;
+                -webkit-print-color-adjust: exact;
+                transform: scale(0.99); /* Coba 0.7 atau 0.65 kalau masih kepotong */
+                transform-origin: top left;
+            }
+            table, tr, td, th {
+                page-break-inside: avoid !important;
+            }
+
+            @page {
+                size: A4 portrait;
+                margin: 10mm;
             }
         }
     </style>
@@ -49,6 +73,7 @@
         <div class="lineHeader"></div>
         <br>
     </div>
+
     <div class="table-data">
         <h2>LAPORAN DATA KONSULTASI DENTEASE TAHUN {{ $tahun }}</h2>
         <br>
@@ -93,15 +118,15 @@
                 @endforeach
             </tbody>
         </table>
-        <br>
-        <div class="grafik">
-            <div class="head">
-                <h3>GRAFIK KONSULTASI</h3>
-            </div>
-            <br>
-            <canvas id="myLineChart" width="400" height="200"></canvas>
-        </div>
     </div>
+
+    <div class="grafik">
+        <h3>GRAFIK KONSULTASI</h3>
+        <br>
+        <canvas id="myLineChart" width="700" height="300"></canvas>
+    </div>
+
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         window.chartData = {
