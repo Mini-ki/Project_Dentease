@@ -44,13 +44,13 @@
                 </li>
             @endif
                 <li>
-                    <a href="{{ route('admin.pasien') }}">
+                    <a href="{{ route('admin.pasien.index') }}">
                         <i class='bx bxs-group'></i>
                         <span class="text">Pasien</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.layanan') }}">
+                    <a href="{{ route('admin.layanan.index') }}">
                         <i class='bx bxs-doughnut-chart'></i>
                         <span class="text">Layanan</span>
                     </a>

@@ -20,11 +20,14 @@
 
 </head>
 <body>
+    @php
+        $imagePath = 'storage/' . ($dokter->foto_profil);
+    @endphp
     <section id="sidebar">
         <div class="head">
             <a href="{{ route('dokter.dashboard') }}" class="profile">
                 {{-- Pastikan gambar ini ada di public/img/DokterProfile.jpg --}}
-                <img src="{{ asset('img/DokterProfile.jpg') }}" alt="Dokter Profile Picture">
+                <img src="{{ asset($imagePath ?? 'default.jpg') }}" alt="Dokter Profile Picture">
             </a>
             <a href="{{ route('dokter.dashboard') }}" class="logoDentease">
                 <span class="text">DENTEASE</span>
@@ -70,16 +73,34 @@
         </ul>
         <ul class="side-menu">
             <li>
-                <a href="#" class="logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class='bx bx-log-out'></i>
+                <a href="#" class="logout" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                    <i class='bx bx-log-out' ></i>
                     <span class="text">Logout</span>
                 </a>
-                <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
             </li>
         </ul>
     </section>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true" style="z-index: 2000">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Konfirmasi Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Apakah Anda yakin ingin logout?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-danger">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <section id="content">
         <nav>
@@ -90,7 +111,7 @@
         </nav>
 
         <main>
-            @yield('content') 
+            @yield('content')
         </main>
     </section>
 

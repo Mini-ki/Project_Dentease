@@ -72,6 +72,8 @@
 		}
 
 		.profile-photo img {
+            justify-content: center;
+            align-items: center;
 			width: 120px;
 			height: 120px;
 			object-fit: cover;

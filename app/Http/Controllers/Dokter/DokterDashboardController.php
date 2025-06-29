@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Dokter;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB; 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class DokterDashboardController extends Controller
 {
@@ -14,6 +15,7 @@ class DokterDashboardController extends Controller
      */
     public function index()
     {
+        $id_dokter = Auth::id();
 
         $jumlah_pasien = DB::table('pasien')->count();
 
@@ -27,6 +29,8 @@ class DokterDashboardController extends Controller
                         ->whereIn('status', ['belum', 'sedang konsultasi'])
                         ->count();
 
-        return view('dokter.dashboard', compact('jumlah_pasien', 'jumlah_konsultasi', 'jumlah_selesai', 'jumlah_belum'));
+        $dokter = DB::table('dokter')->where('id_dokter', $id_dokter)->first();
+
+        return view('dokter.dashboard', compact('jumlah_pasien', 'jumlah_konsultasi', 'jumlah_selesai', 'jumlah_belum', 'dokter'));
     }
 }

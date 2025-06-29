@@ -25,7 +25,7 @@ use App\Http\Controllers\Dokter\UlasanController;
 use App\Http\Controllers\Pasien\PasienProfileController;
 use App\Http\Controllers\WelcomeController;
 
-Route::get('/', [WelcomeController::class, 'index'])->name('welcome'); 
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/login', fn() => view('auth.login'))->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -49,14 +49,14 @@ Route::middleware(['auth'], ['role: pasien'])->group(function () {
 });
 
 Route::prefix('admin')->name('admin.')->middleware(['auth'], ['role:super_admin,admin,operator'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin_index'); 
-    Route::get('/admin/create', [AdminController::class, 'create'])->name('admin_create'); 
-    Route::post('/admin', [AdminController::class, 'store'])->name('admin_store'); 
-    Route::get('/admin/{id_admin}/edit', [AdminController::class, 'edit'])->name('admin_edit'); 
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin_index');
+    Route::get('/admin/create', [AdminController::class, 'create'])->name('admin_create');
+    Route::post('/admin', [AdminController::class, 'store'])->name('admin_store');
+    Route::get('/admin/{id_admin}/edit', [AdminController::class, 'edit'])->name('admin_edit');
     Route::put('/admin/{id_admin}', [AdminController::class, 'update'])->name('admin_update');
-    Route::delete('/admin/{id_admin}', [AdminController::class, 'destroy'])->name('admin_destroy'); 
+    Route::delete('/admin/{id_admin}', [AdminController::class, 'destroy'])->name('admin_destroy');
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan'); 
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan');
     Route::get('/laporan/cetak', [LaporanController::class, 'printReport'])->name('laporan.cetak');
     Route::get('/dokter', [DokterController::class, 'index'])->name('dokter');
     Route::get('/dokter/create', [DokterController::class, 'create'])->name('dokter.create');
@@ -65,9 +65,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'], ['role:super_admin,
     Route::put('/dokter/{id_dokter}', [DokterController::class, 'update'])->name('dokter.update');
     Route::delete('/dokter/{id_dokter}', [DokterController::class, 'destroy'])->name('dokter.destroy');
     Route::resource('feed', FeedController::class);
+    Route::resource('pasien', PasienController::class);
+    Route::resource('layanan', LayananController::class);
+    Route::patch('layanan/{id}/toggle-status', [LayananController::class, 'toggleStatus'])->name('layanan.toggle-status');
     Route::get('/konsultasi', [KonsultasiController::class, 'index'])->name('konsultasi');
-    Route::match(['get', 'post'], '/layanan', [LayananController::class, 'index'])->name('layanan');
-    Route::match(['get', 'post'], '/pasien', [PasienController::class, 'index'])->name('pasien');    
 });
 
 Route::middleware(['auth'], ['role:dokter'])->group(function () {
@@ -81,12 +82,12 @@ Route::middleware(['auth'], ['role:dokter'])->group(function () {
     Route::get('/dokter/profil', [ProfilController::class, 'index'])->name('dokter.profil');
     Route::put('/dokter/profil', [ProfilController::class, 'update'])->name('dokter.profil.update');
     Route::get('/rekam-medis', [RekamMedisController::class, 'index'])->name('rekam_medis');
-    Route::put('/rekam-medis/update', [RekamMedisController::class, 'update'])->name('rekam_medis.update'); 
-    Route::delete('/rekam-medis/delete', [RekamMedisController::class, 'destroy'])->name('rekam_medis.destroy'); 
+    Route::put('/rekam-medis/update', [RekamMedisController::class, 'update'])->name('rekam_medis.update');
+    Route::delete('/rekam-medis/delete', [RekamMedisController::class, 'destroy'])->name('rekam_medis.destroy');
     Route::get('/rekam-medis/{id_pasien}/detail', [RekamMedisController::class, 'showRekamMedis'])->name('rekam_medis.detail');
     Route::post('/rekam-medis/{id_pasien}/store-update', [RekamMedisController::class, 'storeOrUpdateRekamMedis'])->name('rekam_medis.store_update_rm');
     Route::get('/rekam-medis/{id_pasien}/delete-rm/{id_rekam_medis}', [RekamMedisController::class, 'deleteRekamMedis'])->name('rekam_medis.delete_rm');
-    Route::get('/ulasan', [UlasanController::class, 'index'])->name('ulasan'); 
+    Route::get('/ulasan', [UlasanController::class, 'index'])->name('ulasan');
 
 });
 

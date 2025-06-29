@@ -5,151 +5,133 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\LayananDokter; 
-use App\Models\Dokter;         
-use App\Models\JadwalDokter;   
+use App\Models\LayananDokter;
+use App\Models\Dokter;
+use App\Models\JadwalDokter;
 
 class LayananController extends Controller
 {
-    
-    /**
-     * Menampilkan daftar layanan dan menangani operasi CRUD (add, edit, delete, status).
-     * Juga menampilkan statistik layanan dan jadwal dokter.
-     */
     public function index(Request $request)
     {
-        
-        $userRole = Auth::user()->role; 
-        
-        $nama_layanan = "";
-        $biaya = "";
-        $error = "";
-        $sukses = "";
+        return view('admin.layanan', [
+            'userRole' => Auth::user()->role,
+            'layananStatistik' => $this->getLayananStatistik(),
+            'layananData' => LayananDokter::orderBy('id_layanan')->get(),
+            'jadwalDokterData' => $this->getFilteredJadwalDokter($request),
+            'op' => 'create',
+            'layanantoEdit' => null,
+            'error' => session('error', ''),
+            'sukses' => session('sukses', ''),
+        ]);
+    }
 
-        $op = $request->input('op', 'add');
-        $id_layanan = $request->input('id_layanan'); 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nama_layanan' => 'required|string|max:255',
+            'biaya_layanan' => 'required|numeric',
+        ]);
 
-        if ($request->has('op')) {
-            $op = $request->input('op');
-
-            switch ($op) {
-                case 'delete':
-                    try {
-                        Dokter::where('id_layanan', $id_layanan)->update(['id_layanan' => null]);
-
-                        LayananDokter::destroy($id_layanan);
-                        $sukses = "Berhasil hapus data.";
-                    } catch (\Exception $e) {
-                        $error = "Gagal melakukan delete data: " . $e->getMessage();
-                    }
-                    return redirect()->route('admin.layanan')->with(['sukses' => $sukses, 'error' => $error]);
-
-                case 'edit':
-                    $layanan = LayananDokter::find($id_layanan);
-                    if ($layanan) {
-                        $nama_layanan = $layanan->nama_layanan;
-                        $biaya = $layanan->biaya_layanan;
-                    } else {
-                        $error = "Data tidak ditemukan.";
-                        return redirect()->route('admin.layanan')->with('error', $error);
-                    }
-                    break;
-
-                case 'status':
-                    try {
-                        $layanan = LayananDokter::find($id_layanan);
-                        if ($layanan) {
-                            $layanan->status = ($layanan->status == "Aktif") ? "Nonaktif" : "Aktif";
-                            $layanan->save();
-                            $sukses = "Status layanan berhasil diperbarui.";
-                        } else {
-                            $error = "Layanan tidak ditemukan.";
-                        }
-                    } catch (\Exception $e) {
-                        $error = "Gagal memperbarui status: " . $e->getMessage();
-                    }
-                    return redirect()->route('admin.layanan')->with(['sukses' => $sukses, 'error' => $error]);
-            }
-        }
-
-        if ($request->isMethod('post')) {
-            $request->validate([
-                'nama_layanan' => 'required',
-                'biaya_layanan' => 'required|numeric',
+        try {
+            LayananDokter::create([
+                'nama_layanan' => $request->nama_layanan,
+                'biaya_layanan' => $request->biaya_layanan,
+                'status' => 'Aktif',
             ]);
 
-            $nama_layanan = $request->input('nama_layanan');
-            $biaya = $request->input('biaya_layanan');
+            return redirect()->route('admin.layanan.index')->with('sukses', 'Berhasil menambahkan layanan.');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+        }
+    }
 
-            if ($request->has('id_layanan_edit')) { 
-                $id_layanan = $request->input('id_layanan_edit');
-                $layanan = LayananDokter::find($id_layanan);
-                if ($layanan) {
-                    $layanan->nama_layanan = $nama_layanan;
-                    $layanan->biaya_layanan = $biaya;
-                    $layanan->save();
-                    $sukses = "Data berhasil diupdate.";
-                } else {
-                    $error = "Data gagal diupdate.";
-                }
-            } else { 
-                LayananDokter::create([
-                    'nama_layanan' => $nama_layanan,
-                    'biaya_layanan' => $biaya,
-                    'status' => 'Aktif', 
-                ]);
-                $sukses = "Berhasil memasukkan data baru.";
-            }
-
-            return redirect()->route('admin.layanan')->with(['sukses' => $sukses, 'error' => $error]);
+    public function edit($id)
+    {
+        $layanantoEdit = LayananDokter::find($id);
+        if (!$layanantoEdit) {
+            return redirect()->route('admin.layanan.index')->with('error', 'Data tidak ditemukan.');
         }
 
-        $layananStatistik = LayananDokter::withCount(['dokters' => function($query) {
-                                $query->whereHas('layananDokter', function($q) {
-                                    $q->where('status', 'Aktif');
-                                });
-                            }])
-                            ->orderBy('id_layanan')
-                            ->get();
+        return view('admin.layanan', [
+            'userRole' => Auth::user()->role,
+            'layananStatistik' => $this->getLayananStatistik(),
+            'layananData' => LayananDokter::orderBy('id_layanan')->get(),
+            'jadwalDokterData' => $this->getFilteredJadwalDokter(new Request()),
+            'layanantoEdit' => $layanantoEdit,
+            'op' => 'edit',
+            'error' => '',
+            'sukses' => '',
+        ]);
+    }
 
-        $layananData = LayananDokter::orderBy('id_layanan')->get();
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama_layanan' => 'required|string|max:255',
+            'biaya_layanan' => 'required|numeric',
+        ]);
 
-        $jadwalDokterQuery = JadwalDokter::with(['dokter.layananDokter'])
-                                        ->whereHas('dokter.layananDokter', function ($query) {
-                                            $query->where('status', 'Aktif');
-                                        });
+        try {
+            $layanan = LayananDokter::findOrFail($id);
+            $layanan->update([
+                'nama_layanan' => $request->nama_layanan,
+                'biaya_layanan' => $request->biaya_layanan,
+            ]);
+
+            return redirect()->route('admin.layanan.index')->with('sukses', 'Berhasil mengupdate layanan.');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Gagal mengupdate data: ' . $e->getMessage());
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            Dokter::where('id_layanan', $id)->update(['id_layanan' => null]);
+            LayananDokter::destroy($id);
+
+            return redirect()->route('admin.layanan.index')->with('sukses', 'Berhasil menghapus layanan.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.layanan.index')->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+        }
+    }
+
+    public function toggleStatus($id)
+    {
+        try {
+            $layanan = LayananDokter::findOrFail($id);
+            $layanan->status = $layanan->status === 'Aktif' ? 'Nonaktif' : 'Aktif';
+            $layanan->save();
+
+            return redirect()->route('admin.layanan.index')->with('sukses', 'Status layanan berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.layanan.index')->with('error', 'Gagal memperbarui status: ' . $e->getMessage());
+        }
+    }
+
+    protected function getLayananStatistik()
+    {
+        return LayananDokter::withCount(['dokters' => function ($query) {
+            $query->whereHas('layananDokter', fn($q) => $q->where('status', 'Aktif'));
+        }])->orderBy('id_layanan')->get();
+    }
+
+    protected function getFilteredJadwalDokter(Request $request)
+    {
+        $query = JadwalDokter::with(['dokter.layananDokter'])
+            ->whereHas('dokter.layananDokter', fn($q) => $q->where('status', 'Aktif'));
 
         if ($request->filled('searchInput')) {
-            $searchInput = $request->input('searchInput');
-            $jadwalDokterQuery->whereHas('dokter', function ($q) use ($searchInput) {
-                $q->where('nama_lengkap', 'LIKE', '%' . $searchInput . '%');
+            $search = $request->input('searchInput');
+            $query->whereHas('dokter', function ($q) use ($search) {
+                $q->where('nama_lengkap', 'like', '%' . $search . '%');
             });
         }
 
         if ($request->filled('filter')) {
-            $filterHari = $request->input('filter');
-            $jadwalDokterQuery->where('hari', $filterHari);
+            $query->where('hari', $request->input('filter'));
         }
 
-        $hariOrder = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
-        $jadwalDokterQuery->orderByRaw("FIELD(hari, '" . implode("','", $hariOrder) . "')");
-
-        $jadwalDokterData = $jadwalDokterQuery->get();
-
-        $sukses = session('sukses', $sukses);
-        $error = session('error', $error);
-
-        return view('admin.layanan', compact(
-            'userRole',
-            'nama_layanan',
-            'biaya',
-            'error',
-            'sukses',
-            'layananStatistik',
-            'layananData',
-            'jadwalDokterData',
-            'id_layanan',
-            'op' 
-        ));
+        return $query->orderByRaw("FIELD(hari, 'Senin','Selasa','Rabu','Kamis','Jumat')")->get();
     }
 }
