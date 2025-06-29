@@ -94,11 +94,11 @@ class DokterController extends Controller
                 'spesialis' => $request->spesialis,
                 'id_layanan' => $id_layanan,
                 'alamat' => $request->alamat,
-                'rating' => 0 // Rating awal
+                'rating' => 0
             ]);
 
             DB::commit();
-            return redirect()->route('admin.dokter')->with('sukses', 'Berhasil memasukkan data baru');
+            return redirect()->route('admin.dokter.index')->with('sukses', 'Berhasil memasukkan data baru');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -117,7 +117,7 @@ class DokterController extends Controller
         $doktertoEdit = Dokter::where('id_dokter', $id_dokter)->first();
 
         if (!$doktertoEdit) {
-            return redirect()->route('admin.dokter')->with('error', 'Data dokter tidak ditemukan.');
+            return redirect()->route('admin.dokter.index')->with('error', 'Data dokter tidak ditemukan.');
         }
 
         $layanans = LayananDokter::all();
@@ -163,7 +163,7 @@ class DokterController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route('admin.dokter')->with('sukses', 'Data berhasil diupdate');
+            return redirect()->route('admin.dokter.index')->with('sukses', 'Data berhasil diupdate');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -182,21 +182,18 @@ class DokterController extends Controller
         try {
             DB::beginTransaction();
 
-            // Hapus data konsultasi yang terkait
             Konsultasi::where('id_dokter', $id_dokter)->delete();
 
-            // Hapus data dokter
             Dokter::where('id_dokter', $id_dokter)->delete();
 
-            // Hapus user yang terkait
             User::where('id_user', $id_dokter)->delete();
 
             DB::commit();
-            return redirect()->route('admin.dokter')->with('sukses', 'Berhasil hapus data');
+            return redirect()->route('admin.dokter.index')->with('sukses', 'Berhasil hapus data');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('admin.dokter')->with('error', 'Gagal melakukan delete data: ' . $e->getMessage());
+            return redirect()->route('admin.dokter.index')->with('error', 'Gagal melakukan delete data: ' . $e->getMessage());
         }
     }
 }

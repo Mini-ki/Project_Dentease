@@ -7,11 +7,11 @@
             <h1>ADMIN</h1>
             <ul class="breadcrumb">
                 <li>
-                    <a href="{{ route('admin.admin_index') }}">Admin</a>
+                    <a href="{{ route('admin.admin.index') }}">Admin</a>
                 </li>
                 <li><i class='bx bx-chevron-right'></i></li>
                 <li>
-                    <a class="active" href="{{ route('admin.admin_index') }}">Data Admin</a>
+                    <a class="active" href="{{ route('admin.admin.index') }}">Data Admin</a>
                 </li>
             </ul>
         </div>
@@ -53,7 +53,7 @@
             </div>
             <div class="body">
                 {{-- Arahkan form ke route store untuk create, atau update untuk edit --}}
-                <form action="{{ (isset($op) && $op == 'edit') ? route('admin.admin_update', $adminToEdit->id_admin) : route('admin.admin_store') }}" method="POST">
+                <form action="{{ (isset($op) && $op == 'edit') ? route('admin.admin.update', $adminToEdit->id_admin) : route('admin.admin.store') }}" method="POST">
                     @csrf
                     @if(isset($op) && $op == 'edit')
                         @method('PUT')
@@ -107,7 +107,7 @@
                         @error('role_admin')<div class="text-danger">{{ $message }}</div>@enderror
                     <br style="display-top: 10px">
                     <button type="submit" class="btn btn-primary">SUBMIT</button>
-                    <a href="{{ route('admin.admin_index') }}" class="btn btn-secondary">BATAL</a>
+                    <a href="{{ route('admin.admin.index') }}" class="btn btn-secondary">BATAL</a>
                 </form>
             </div>
         </div>
@@ -136,8 +136,8 @@
                                 <td>{{ $adminItem->noHP }}</td>
                                 <td>{{ $adminItem->role }}</td>
                                 <td class="nowrap">
-                                    <a href="{{ route('admin.admin_edit', $adminItem->id_admin) }}" class="btn btn-warning btn-sm">Edit</a>
-                                    <form action="{{ route('admin.admin_destroy', $adminItem->id_admin) }}" method="POST" style="display:inline-block;">
+                                    <a href="{{ route('admin.admin.edit', $adminItem->id_admin) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ route('admin.admin.destroy', $adminItem->id_admin) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Delete</button>

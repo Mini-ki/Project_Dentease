@@ -13,7 +13,7 @@
 <body>
     <section id="sidebar" style="z-index: 1000">
         <div class="head">
-            <a href="{{ route('admin.admin_index') }}" class="profile">
+            <a href="{{ route('admin.admin.index') }}" class="profile">
                 <img src="{{ asset('img/admin/AdminDentease.jpeg') }}">
             </a>
             <a href="{{ route('admin.dashboard') }}" class="logoDentease">
@@ -29,7 +29,7 @@
             </li>
             @if(Auth::check() && Auth::user()->sub_role === 'super_admin')
             <li>
-                <a href="{{ route('admin.admin_index') }}">
+                <a href="{{ route('admin.admin.index') }}">
                     <i class='bx bxs-group'></i>
                     <span class="text">Admin</span>
                 </a>
@@ -37,7 +37,7 @@
             @endif
             @if(Auth::check() && Auth::user()->sub_role !== 'operator')
                 <li>
-                    <a href="{{ route('admin.dokter') }}">
+                    <a href="{{ route('admin.dokter.index') }}">
                         <i class='bx bxs-group'></i>
                         <span class="text">Dokter</span>
                     </a>

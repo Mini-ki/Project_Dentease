@@ -71,7 +71,7 @@ class AdminController extends Controller
                 'password' => Hash::make($request->password),
                 'role' => 'admin',
             ]);
-            
+
             Admin::create([
                 'id_admin' => $newUser->id_user,
                 'nama_admin' => $request->nama_admin,
@@ -80,7 +80,7 @@ class AdminController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route('admin.admin_index')->with('success', 'Admin berhasil ditambahkan!');
+            return redirect()->route('admin.admin.index')->with('success', 'Admin berhasil ditambahkan!');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withInput()->with('error', 'Gagal menambahkan admin: ' . $e->getMessage());
@@ -96,12 +96,12 @@ class AdminController extends Controller
 
         $adminToEdit = Admin::where('id_admin', $id_admin)->first();
         if (!$adminToEdit) {
-            return redirect()->route('admin.admin_index')->with('error', 'Data admin tidak ditemukan.');
+            return redirect()->route('admin.admin.index')->with('error', 'Data admin tidak ditemukan.');
         }
 
         $userToEdit = User::find($id_admin);
         if (!$userToEdit) {
-            return redirect()->route('admin.admin_index')->with('error', 'Data user tidak ditemukan untuk admin ini.');
+            return redirect()->route('admin.admin.index')->with('error', 'Data user tidak ditemukan untuk admin ini.');
         }
 
         $admins = Admin::get();
@@ -149,7 +149,7 @@ class AdminController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('admin.admin_index')->with('success', 'Data admin berhasil diperbarui!');
+            return redirect()->route('admin.admin.index')->with('success', 'Data admin berhasil diperbarui!');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withInput()->with('error', 'Gagal memperbarui admin: ' . $e->getMessage());
@@ -176,7 +176,7 @@ class AdminController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('admin.admin_index')->with('success', 'Admin berhasil dihapus!');
+            return redirect()->route('admin.admin.index')->with('success', 'Admin berhasil dihapus!');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Gagal menghapus admin: ' . $e->getMessage());

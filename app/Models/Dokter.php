@@ -6,16 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable; // <--- PENTING: Import ini!
 
-class Dokter extends Authenticatable 
+class Dokter extends Authenticatable
 {
     use HasFactory, Notifiable;
-    protected $table = 'dokter'; 
-    protected $primaryKey = 'id_dokter'; 
-    public $timestamps = false; 
+    protected $table = 'dokter';
+    protected $primaryKey = 'id_dokter';
+    public $timestamps = false;
     protected $guard = 'dokter';
-    
+
 
     protected $fillable = [
+        'id_dokter',
         'foto_profil',
         'nama_panggilan',
         'nama_lengkap',
@@ -26,7 +27,7 @@ class Dokter extends Authenticatable
     ];
 
     protected $casts = [
-        'foto_profil', 
+        'foto_profil',
         'umur' => 'integer',
         'id_layanan' => 'integer',
     ];
@@ -44,6 +45,6 @@ class Dokter extends Authenticatable
     {
         return $this->hasMany(Konsultasi::class, 'id_dokter', 'id_dokter');
     }
-     
+
 }
 ?>

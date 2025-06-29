@@ -122,7 +122,7 @@
                 <i class='bx bx-search' ></i>
                 <i class='bx bx-filter' ></i>
                 <div class="boxFilter">
-                    <form action="{{ route('admin.dokter') }}" method="GET">
+                    <form action="{{ route('admin.dokter.index') }}" method="GET">
                         <select id="filter" onchange="this.form.submit()" name="filter" style="width: 100%; padding: 5px; border: 1px solid; border-radius: 5px; font-size: 12px;">
                             <option value="" style="text-align: center;">-- Pilih Spesialis --</option>
                             @foreach($distinctSpesialis as $spec)
@@ -131,7 +131,7 @@
                         </select>
                     </form>
                 </div>
-                <form id="searchForm" action="{{ route('admin.dokter') }}" method="GET">
+                <form id="searchForm" action="{{ route('admin.dokter.index') }}" method="GET">
                     <div class="form-input">
                         <input type="search" name="searchInput" id="searchInput" placeholder="Search..." value="{{ request('searchInput') }}">
                         <button type="submit"><i class='bx bx-search' style="color:#FFFFFF"></i></button>

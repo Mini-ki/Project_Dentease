@@ -7,14 +7,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    protected $table = 'users'; // Nama tabel sesuai database
-    protected $primaryKey = 'id_user'; // Primary key sesuai tabel lama
-    public $timestamps = false; // Tidak pakai timestamps otomatis
+    protected $table = 'users';
+    protected $primaryKey = 'id_user';
+    public $timestamps = false;
 
     protected $fillable = ['username', 'email', 'password', 'role'];
 
     protected $casts = [
-        'role' => 'string', // ENUM dikonversi ke string agar lebih mudah digunakan
+        'role' => 'string', 
     ];
 
     protected $hidden = ['password'];
