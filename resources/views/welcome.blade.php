@@ -2,6 +2,7 @@
 @section('title', 'Dentease - Klinik Kesehatan Gigi Terbaik')
 
 @section('additional-css')
+
     <link rel="stylesheet" href="{{ asset('css/pasien/stylesHomepage.css') }}">
     <link rel="stylesheet" href="{{ asset('css/pasien/grid.css') }}">
 
@@ -17,10 +18,10 @@
             </p>
 
             <div style="display: flex; justify-content: center; margin-top: 50px; gap: 50px;">
-                <a href="{{ route('login') }}" class="btn btn-secondary" 
+                <a href="{{ route('login') }}" class="btn btn-secondary"
                 style = "border-radius: 30px; height: 50px; width: 200px; background-color: white; border: 2px solid #274760; color: #274760;">Login</a>
 
-                <a href="{{ route('register') }}" class="btn btn-secondary" 
+                <a href="{{ route('register') }}" class="btn btn-secondary"
                 style = "border-radius: 30px; height: 50px; width: 200px; background-color: white; border: 2px solid #274760; color: #274760;">Register</a>
             </div>
         </div>
