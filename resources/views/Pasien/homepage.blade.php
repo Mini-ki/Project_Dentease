@@ -8,12 +8,16 @@
 @endsection
 
 @section('content')
-    <div class="container" style="top: 100px; margin-bottom: 180px;">
+    <div class="container" style="top: 100px; margin-bottom: 200px;">
         <div class="text-container">
             <p class="motivation" style="font-size: 55px"> <strong>Smile Brighter, Live Healthier</strong>—Your Dental Future Starts <strong>Today!!</strong></p>
             <p>
                 Sistem informasi manajemen klinik kesehatan gigi terbaik di kelas Pemweb-D angkatan 2023.
             </p>
+            <div style="display: flex; justify-content: center; margin-top: 50px; gap: 50px;">
+                <a href="{{ route('pasien.janji') }}" class="btn btn-secondary" 
+                style = "border-radius: 30px; height: 50px; width: 200px; background-color: white; border: 2px solid #274760; color: #274760;">Buat Janji Temu</a>
+            </div>
         </div>
         <img src="{{ asset('img/Dental Health.jpg') }}">
     </div>
