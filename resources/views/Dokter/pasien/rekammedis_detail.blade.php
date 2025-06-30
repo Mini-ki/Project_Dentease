@@ -204,4 +204,5 @@
             }
         }
     </script>
-@endsection
+    
+</body>
