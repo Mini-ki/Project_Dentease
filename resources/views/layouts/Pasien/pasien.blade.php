@@ -38,7 +38,6 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle {{ request()->routeIs('profile') ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown">Akun</a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            {{-- Perubahan di sini untuk link Profil --}}
                             <li><a class="dropdown-item {{ request()->routeIs('profile') ? 'active' : '' }}" href="{{ route('profile') }}">Profile</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a></li>

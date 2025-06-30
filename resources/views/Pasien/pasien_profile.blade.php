@@ -38,7 +38,7 @@
             @endphp
             <div>
                 <img src="{{ asset($imagePath ?? 'default.jpg') }}" alt="Foto Profil Pasien" style="margin-left: 135px;">
-                <p style="margin-top: 10px; font-weight: bold;">{{ $pasien->nama_lengkap ?? 'Nama Lengkap Pasien' }}</p>
+                <p style="margin-top: 10px; font-weight: bold; font-family: 'Barlow', sans-serif;">{{ $pasien->nama_lengkap ?? 'Nama Lengkap Pasien' }}</p>
             </div>
         </div>
 
@@ -47,7 +47,7 @@
                 @csrf
                 @method('PUT')
 
-                <div class="form-group">
+                <div class="form-group" style="font-family: 'Barlow', sans-serif;">
                     {{-- Data dari tabel `pasiens` --}}
                     <div class="form-field">
                         <label for="nama_lengkap">Nama Lengkap</label>

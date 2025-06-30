@@ -33,6 +33,8 @@
 
                     <input type="submit" value="Submit" style="height: auto; width: 211px; font-family: sans-serif;">
                 </form>
+
+                <p style="font-family: 'Barlow', sans-serif; margin-top: 20px;">Belum memiliki akun? Ayo <a href="{{ route('register') }}">register!</a></p>
             </div>
         </section>
     </div>

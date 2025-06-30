@@ -42,22 +42,22 @@
                     <h4>{{ htmlspecialchars($artikelItem->judul_feed) }}</h4>
                     <p><i>Ditulis oleh: <strong>Admin</strong> | Terbit {{ $tanggal }}</i></p>
                     <p>{{ htmlspecialchars($artikelItem->summary) }}...</p>
-                    <!-- Button to open modal -->
+                    <!-- Button buat modal -->
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#artikelModal{{ $artikelItem->id }}">
                         Baca Artikel
                     </button>
 
                     <!-- Modal -->
                     <div class="modal fade" id="artikelModal{{ $artikelItem->id }}" tabindex="-1" aria-labelledby="artikelModalLabel{{ $artikelItem->id }}" aria-hidden="true" style="z-index: 9999;">
-                        <div class="modal-dialog modal-lg">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="artikelModalLabel{{ $artikelItem->id }}">{{ htmlspecialchars($artikelItem->judul_feed) }}</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <img src="{{ $imagePath }}" class="img-fluid" alt="{{ htmlspecialchars($artikelItem->judul_feed) }}">
-                                    <p class="mt-3">{{ htmlspecialchars($artikelItem->content) }}</p> <!-- Assuming 'content' is the full article text -->
+                                    <img src="{{ asset($imagePath) }}" class="img-fluid" alt="{{ htmlspecialchars($artikelItem->judul_feed) }}" style="width: 300%; height: auto; margin-bottom: 20px;">
+                                    <p class="mt-3">{{ htmlspecialchars($artikelItem->deskripsi) }}</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
