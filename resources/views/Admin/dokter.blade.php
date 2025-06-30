@@ -2,6 +2,7 @@
 
 @section('title', 'Data Dokter')
 
+@section('')
 @section('content')
     <div class="head-title">
         <div class="left">
@@ -181,3 +182,14 @@
         </div>
     </div>
 @endsection
+
+{{-- @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+    <script>
+        $(document).ready( function () {
+        $('#myTable').DataTable();
+        } );
+    </script>
+@endsection --}}
