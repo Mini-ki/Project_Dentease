@@ -94,7 +94,7 @@
                                             </button>
                                         </form>
                                     </td>
-                                    <td>
+                                    <td class="nowrap">
                                         <a href="{{ route('admin.layanan.edit', $data->id_layanan) }}"><button type="button" id="button-edit">Edit</button></a>
                                         <form action="{{ route('admin.layanan.destroy', $data->id_layanan) }}" method="POST" style="display:inline;">
                                             @csrf
