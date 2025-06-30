@@ -23,9 +23,9 @@
         }
 
         .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
             left: 0;
             top: 0;
             width: 100%;
@@ -118,11 +118,6 @@
         .card .btn.btn-danger {
             background-color: #f44336;
         }
-        .card .btn-group {
-            margin-top: 15px;
-            display: flex;
-            gap: 10px;
-        }
     </style>
 </head>
 
@@ -146,7 +141,7 @@
         <button onclick="openForm()" class="btn">+ Tambah Rekam Medis</button>
     </div>
     @forelse ($rekam_medis_list as $row)
-        <div class="card">
+        <div class="card" style="z-index: 9999px">
             <p><strong>Nama Pasien:</strong> {{ $row->nama_pasien }}</p>
             <p><strong>Nama Dokter:</strong> {{ $row->nama_dokter }}</p>
             <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($row->tanggal)->format('d F Y H:i') }}</p>
@@ -208,5 +203,5 @@
                 event.target.style.display = "none";
             }
         }
-    </script>   
-</body>
+    </script>
+@endsection

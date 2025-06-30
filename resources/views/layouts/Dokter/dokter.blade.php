@@ -19,7 +19,7 @@
     @yield('additional-css')
 
 </head>
-<body>
+<body style="z-index: 1000">
     @php
         $imagePath = 'storage/' . ($dokter->foto_profil);
     @endphp
