@@ -2,6 +2,9 @@
 
 @section('title', 'Rekam Medis Pasien - DENTEASE')
 
+@section('additional-css')
+    <link rel="stylesheet" href="{{ asset('css/dokter/rekammedis.css') }}">
+
 @section('content')
     <div class="head-title">
         <div class="left">
@@ -106,7 +109,7 @@
 
     {{-- Modal Detail --}}
     <div id="detailRekamMedisModal" class="modal" style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
-        <div class="modal-content" style="background-color: #fefefe; margin: 5% auto; padding: 20px; border: 1px solid #888; width: 90%; max-width: 800px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+        <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 90%; max-width: 800px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
             <span class="close" onclick="closeModal('detailRekamMedisModal')" style="color: #aaa; float: right; font-size: 28px; font-weight: bold;">&times;</span>
             <h2>Detail Rekam Medis Pasien</h2>
             <div id="rekamMedisContent">
@@ -125,7 +128,6 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/dokter/pasien.js') }}"></script>
 
     <script>
         function openForm() {

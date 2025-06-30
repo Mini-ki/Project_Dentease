@@ -63,7 +63,7 @@ class FeedController extends Controller
             'id_admin' => $adminId,
         ]);
 
-        return redirect()->route('admin.feed')->with('success', 'Berhasil memasukkan data baru');
+        return redirect()->route('admin.feed.index')->with('success', 'Berhasil memasukkan data baru');
     }
 
     public function edit($id_feed)
@@ -115,7 +115,7 @@ class FeedController extends Controller
             // 'updated_at' akan otomatis diisi oleh Eloquent jika ada di model
         ]);
 
-        return redirect()->route('admin.feed')->with('success', 'Data berhasil diupdate');
+        return redirect()->route('admin.feed.index')->with('success', 'Data berhasil diupdate');
     }
 
     public function destroy(Feed $feed)
