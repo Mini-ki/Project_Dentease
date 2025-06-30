@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\WelcomeController;
 
 class RegisterController extends Controller
 {
@@ -29,7 +30,7 @@ class RegisterController extends Controller
             'role' => 'pasien',
         ]);
 
-        return redirect()->route('/')->with('success', 'Registrasi berhasil! Silakan login.');
+        return redirect()->route('welcome')->with('success', 'Registrasi berhasil! Silakan login.');
     }
 }
 ?>
