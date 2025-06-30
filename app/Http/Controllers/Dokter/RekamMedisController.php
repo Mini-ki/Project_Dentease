@@ -80,13 +80,12 @@ class RekamMedisController extends Controller
                         'umur' => $request->umur,
                         'alamat' => $request->alamat,
                         'noHp' => $request->noHp,
-                        'updated_at' => now(), // Kolom updated_at
                     ]);
 
         if ($updated) {
-            return redirect()->route('dokter.rekam_medis')->with('success', 'Data pasien berhasil diperbarui!');
+            return redirect()->route('rekam_medis')->with('success', 'Data pasien berhasil diperbarui!');
         } else {
-            return redirect()->route('dokter.rekam_medis')->with('error', 'Gagal memperbarui data pasien atau tidak ada perubahan.');
+            return redirect()->route('rekam_medis')->with('error', 'Gagal memperbarui data pasien atau tidak ada perubahan.');
         }
     }
 
