@@ -1,4 +1,6 @@
-function openEditModal(data) {
+function openEditModal(jsonString) {
+    const data = JSON.parse(jsonString);
+
     document.getElementById('edit-id-jadwal').value = data.id_jadwal;
     document.getElementById('edit-hari').value = data.hari;
     document.getElementById('edit-jam-mulai').value = data.jam_mulai;

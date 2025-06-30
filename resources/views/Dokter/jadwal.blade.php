@@ -111,39 +111,5 @@
 @endsection
 
 @section('scripts')
-    {{-- Ini adalah JS yang ada di jadwal.js, pastikan path-nya benar --}}
-    <script src="{{ asset('assets/js/jadwal.js') }}"></script>
-    <script>
-        // Fungsi untuk membuka modal Edit
-        function openEditModal(data) {
-            document.getElementById('edit-id-jadwal').value = data.id_jadwal;
-            document.getElementById('edit-hari').value = data.hari;
-            document.getElementById('edit-jam-mulai').value = data.jam_mulai;
-            document.getElementById('edit-jam-selesai').value = data.jam_selesai;
-            document.getElementById('editModal').style.display = 'block';
-        }
-
-        // Fungsi untuk membuka modal Delete
-        function openDeleteModal(id) {
-            document.getElementById('delete-id-jadwal').value = id;
-            document.getElementById('deleteModal').style.display = 'block';
-        }
-
-        // Fungsi untuk membuka modal Tambah
-        function openTambahModal() {
-            document.getElementById('tambahModal').style.display = 'block';
-        }
-
-        // Fungsi untuk menutup modal
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        // Menutup modal jika di klik di luar area modal
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = "none";
-            }
-        }
-    </script>
+    <script src="{{ asset('js/dokter/jadwal.js') }}"></script>
 @endsection
