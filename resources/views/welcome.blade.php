@@ -2,7 +2,6 @@
 @section('title', 'Dentease - Klinik Kesehatan Gigi Terbaik')
 
 @section('additional-css')
-    <link rel="stylesheet" href="{{ asset('css/pasien/stylesJadwal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/pasien/stylesHomepage.css') }}">
     <link rel="stylesheet" href="{{ asset('css/pasien/grid.css') }}">
 
@@ -95,29 +94,27 @@
     </div>
 
     <h1 style="text-align: center; font-size: 50px; font-family: 'Oswald', sans-serif; color: #002A8C;">Layanan kami</h1>
-    <p style="text-align: center; color: #002A8C;">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+    <p style="text-align: center; color: #002A8C;">Berikut adalah daftar dokter dan layanan dari klinik kami.</p>
 
     <div class="container my-4">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center align-items-stretch">
             @foreach ($layananData as $layanan)
                 <div class="col-auto mb-3">
                     <div class="cardLayanan" style="width: 18rem;">
                         <div class="card-body">
-                            <h5 class="card-title">{{ htmlspecialchars($layanan->nama_layanan) }}</h5>
+                            <h5 class="card-title" style="font-family: 'Oswald', sans-serif;">{{ htmlspecialchars($layanan->nama_layanan) }}</h5>
                             <p class="card-text">
-                                Dokter:<br>
                                 @if (!empty($layanan->dokters))
                                 @foreach ($layanan->dokters as $dokter)
                                     <div class="dokter-info">
-                                        <p><strong>{{ $dokter->nama_lengkap }}</strong> - {{ $dokter->spesialis }}</p>
-                                        <p>Alamat: {{ $dokter->alamat }}</p>
+                                        <p style="font-family: 'Barlow', sans-serif;"><strong>{{ $dokter->nama_lengkap }}</strong> - {{ $dokter->spesialis }}</p>
                                     </div>
                                 @endforeach
                                 @else
                                     <em>Tidak ada dokter untuk layanan ini</em>
                                 @endif
                             </p>
-                            <p class="card-text">Biaya: Rp{{ number_format($layanan->biaya_layanan, 0, ',', '.') }}</p>
+                            <p class="card-text" style="font-family: 'Barlow', sans-serif;">Biaya: Rp{{ number_format($layanan->biaya_layanan, 0, ',', '.') }}</p>
                         </div>
                     </div>
                 </div>
