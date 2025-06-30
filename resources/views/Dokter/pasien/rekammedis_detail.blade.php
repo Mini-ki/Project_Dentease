@@ -1,24 +1,39 @@
-@extends('layouts.dokter.dokter')
 
-@section('title', 'Detail Rekam Medis - DENTEASE')
-
-@section('additional-css')
-    {{-- Sesuaikan path CSS jika rekammedis.css ada di folder Dokter --}}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Rekam Medis - DENTEASE</title>
     <link rel="stylesheet" href="{{ asset('css/Dokter/rekammedis.css') }}">
     <style>
-        /* CSS untuk Modal */
+        .sidebar, .navbar, #header, #navigation {
+            display: none !important;
+        }
+
+        body {
+            padding-top: 0 !important;
+            padding-left: 0 !important;
+            background-color: transparent !important;
+            color: #333;
+        }
+
+        main.content-wrapper, .dashboard-content {
+            margin-left: 0 !important;
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+        }
+
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1000; /* Sit on top */
+            display: none;
+            position: fixed;
+            z-index: 1000;
             left: 0;
             top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-            justify-content: center; /* Center content horizontally */
-            align-items: center; /* Center content vertically */
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
         }
 
         .modal-content {
@@ -79,7 +94,6 @@
         .modal-content form button.btn-danger {
             background-color: #f44336;
         }
-        /* Styling for the cards */
         .card {
             background-color: #fff;
             border: 1px solid #ddd;
@@ -87,7 +101,7 @@
             padding: 15px;
             margin-bottom: 15px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            color: #333; /* Darker text for readability */
+            color: #333;
         }
         .card p strong {
             color: #555;
@@ -97,30 +111,22 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 14px;
-            text-decoration: none; /* For anchor buttons */
-            display: inline-block; /* For anchor buttons */
+            text-decoration: none;
+            display: inline-block;
             margin-top: 10px;
         }
         .card .btn.btn-danger {
             background-color: #f44336;
         }
+        .card .btn-group {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
     </style>
-@endsection
+</head>
 
-@section('content')
-    <div class="head-title">
-        <div class="left">
-            <h1>Rekam Medis Pasien</h1>
-            <ul class="breadcrumb">
-                <li><a href="{{ route('dokter.dashboard') }}">Dashboard</a></li>
-                <li><i class='bx bx-chevron-right'></i></li>
-                <li><a href="{{ route('rekam_medis') }}">Rekam Medis</a></li>
-                <li><i class='bx bx-chevron-right'></i></li>
-                <li><a class="active" href="#">Detail</a></li>
-            </ul>
-        </div>
-    </div>
-
+<body>
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -133,24 +139,12 @@
         </div>
     @endif
 
+
+    <h2 style="color: #fff;">Riwayat Rekam Medis</h3>
     <div style="margin-bottom: 20px;">
         <a href="{{ route('rekam_medis') }}" class="btn btn-danger">Kembali</a>
         <button onclick="openForm()" class="btn">+ Tambah Rekam Medis</button>
     </div>
-
-    {{-- Informasi Pasien --}}
-    @if ($pasien_data)
-        <div class="card" style="background-color: #e9e9e9;">
-            <h3>Informasi Pasien</h3>
-            <p><strong>Nama Lengkap:</strong> {{ $pasien_data->nama_lengkap }}</p>
-            <p><strong>Nama Panggilan:</strong> {{ $pasien_data->nama_panggilan }}</p>
-            <p><strong>Umur:</strong> {{ $pasien_data->umur }}</p>
-            <p><strong>Alamat:</strong> {{ $pasien_data->alamat }}</p>
-            <p><strong>No HP:</strong> {{ $pasien_data->noHp }}</p>
-        </div>
-    @endif
-
-    <h3>Riwayat Rekam Medis</h3>
     @forelse ($rekam_medis_list as $row)
         <div class="card">
             <p><strong>Nama Pasien:</strong> {{ $row->nama_pasien }}</p>
@@ -159,14 +153,15 @@
             <p><strong>Diagnosa:</strong> {{ $row->diagnose }}</p>
             <p><strong>Tindakan:</strong> {{ $row->tindakan }}</p>
             <p><strong>Obat:</strong> {{ $row->obat }}</p>
-            <button onclick="editData('{{ json_encode($row) }}')" class="btn">Edit</button>
-            <a href="{{ route('rekam_medis.delete_rm', ['id_pasien' => $pasien_data->id_pasien, 'id_rekam_medis' => $row->id_rekam_medis]) }}" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus rekam medis ini?')">Hapus</a>
+            <div class="btn-group">
+                <button onclick="editData(`{{ json_encode($row) }}`)" class="btn">Edit</button>
+                <a href="{{ route('rekam_medis.delete_rm', ['id_pasien' => $pasien_data->id_pasien, 'id_rekam_medis' => $row->id_rekam_medis]) }}" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus rekam medis ini?')">Hapus</a>
+            </div>
         </div>
     @empty
         <p style="color: #666;">Belum ada rekam medis untuk pasien ini.</p>
     @endforelse
 
-    {{-- Modal Form Tambah/Edit Rekam Medis --}}
     <div class="modal" id="modalForm">
         <div class="modal-content">
             <span class="close" onclick="closeForm()">&times;</span>
@@ -185,12 +180,10 @@
             </form>
         </div>
     </div>
-@endsection
 
-@section('scripts')
     <script>
         function openForm() {
-            document.getElementById('id_rekam_medis').value = ''; // Clear for add new
+            document.getElementById('id_rekam_medis').value = '';
             document.getElementById('diagnosa').value = '';
             document.getElementById('tindakan').value = '';
             document.getElementById('obat').value = '';
@@ -201,19 +194,19 @@
             document.getElementById('modalForm').style.display = 'none';
         }
 
-        function editData(data) {
+        function editData(jsonString) {
+            const data = JSON.parse(jsonString);
             document.getElementById('id_rekam_medis').value = data.id_rekam_medis;
-            document.getElementById('diagnosa').value = data.diagnosa;
+            document.getElementById('diagnosa').value = data.diagnose;
             document.getElementById('tindakan').value = data.tindakan;
             document.getElementById('obat').value = data.obat;
             document.getElementById('modalForm').style.display = 'flex';
         }
 
-        // Close modals if clicked outside
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
                 event.target.style.display = "none";
             }
         }
-    </script>
-@endsection
+    </script>   
+</body>

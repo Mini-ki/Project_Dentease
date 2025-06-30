@@ -3,30 +3,28 @@
 @section('title', 'Daftar Pasien - DENTEASE')
 
 @section('additional-css')
-    {{-- Jika ada CSS khusus untuk halaman ini, misalnya untuk modal --}}
     <style>
-        /* CSS untuk Modal */
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1000; /* Sit on top */
+            display: none;
+            position: fixed;
+            z-index: 1000;
             left: 0;
             top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-            justify-content: center; /* Center content horizontally */
-            align-items: center; /* Center content vertically */
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
         }
 
         .modal-content {
             background-color: #fefefe;
-            margin: auto; /* Removed top margin for vertical centering via align-items */
+            margin: auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 80%; /* Could be responsive */
-            max-width: 500px; /* Max width for readability */
+            width: 80%;
+            max-width: 500px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             position: relative;
@@ -74,7 +72,7 @@
             font-size: 16px;
             margin-right: 10px;
         }
-        .modal-content form button[type="button"] { /* For cancel button */
+        .modal-content form button[type="button"] {
             background-color: #f44336;
         }
     </style>
@@ -133,7 +131,7 @@
                     </td>
                     <td class="nowrap">
                         <button type="button" id="button-edit"
-                                onclick="openEditModal('{{ json_encode($row) }}')">Edit</button>
+                                onclick="openEditModal(`{{ json_encode($row) }}`)">Edit</button>
                         <button type="button" id="button-delete"
                                 onclick="openDeleteModal('{{ $row->id_pasien }}')">Delete</button>
                     </td>
@@ -146,14 +144,13 @@
         </tbody>
     </table>
 
-    {{-- Edit Modal --}}
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('editModal')">&times;</span>
             <h2>Edit Data Pasien</h2>
             <form action="{{ route('rekam_medis.update') }}" method="POST">
                 @csrf
-                @method('PUT') {{-- Penting untuk metode PUT --}}
+                @method('PUT')
                 <input type="hidden" name="id_pasien" id="edit-id-pasien">
                 <label>Nama Panggilan:</label>
                 <input type="text" name="nama_panggilan" id="edit-nama-panggilan" required>
@@ -171,7 +168,6 @@
         </div>
     </div>
 
-    {{-- Delete Modal --}}
     <div id="deleteModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('deleteModal')">&times;</span>
@@ -179,7 +175,7 @@
             <p>Apakah Anda yakin ingin menghapus data ini?</p>
             <form action="{{ route('rekam_medis.destroy') }}" method="POST">
                 @csrf
-                @method('DELETE') {{-- Penting untuk metode DELETE --}}
+                @method('DELETE')
                 <input type="hidden" name="id_pasien" id="delete-id-pasien">
                 <button type="submit">Ya, Hapus</button>
                 <button type="button" onclick="closeModal('deleteModal')" style="background-color: #f44336;">Batal</button>
@@ -190,7 +186,10 @@
 
 @section('scripts')
     <script>
-        function openEditModal(data) {
+        function openEditModal(jsonString) {
+            // Parse string JSON menjadi objek JavaScript
+            const data = JSON.parse(jsonString);
+
             document.getElementById('edit-id-pasien').value = data.id_pasien;
             document.getElementById('edit-nama-panggilan').value = data.nama_panggilan;
             document.getElementById('edit-nama-lengkap').value = data.nama_lengkap;
@@ -209,13 +208,10 @@
             document.getElementById(modalId).style.display = 'none';
         }
 
-        // Close modals if clicked outside
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
                 event.target.style.display = "none";
             }
         }
     </script>
-    {{-- Jika pasien.js memiliki fungsi lain yang digunakan di sini, bisa di-include: --}}
-    {{-- <script src="{{ asset('js/dokter/pasien.js') }}"></script> --}}
 @endsection

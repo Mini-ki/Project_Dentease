@@ -212,10 +212,9 @@ class RekamMedisController extends Controller
             $updated = DB::table('rekam_medis')
                         ->where('id_rekam_medis', $request->id_rekam_medis)
                         ->update([
-                            'diagnosa' => $request->diagnosa,
+                            'diagnose' => $request->diagnosa,
                             'tindakan' => $request->tindakan,
                             'obat' => $request->obat,
-                            'updated_at' => now(),
                         ]);
             $message = 'Rekam medis berhasil diperbarui!';
             $error_message = 'Gagal memperbarui rekam medis.';
@@ -269,7 +268,7 @@ class RekamMedisController extends Controller
         $deleted = DB::table('rekam_medis')->where('id_rekam_medis', $id_rekam_medis)->delete();
 
         if ($deleted) {
-            return redirect()->route('dokter.rekam_medis.detail', $id_pasien)->with('success', 'Rekam medis berhasil dihapus!');
+            return redirect()->route('rekam_medis.detail', $id_pasien)->with('success', 'Rekam medis berhasil dihapus!');
         } else {
             return back()->with('error', 'Gagal menghapus rekam medis.');
         }

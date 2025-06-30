@@ -67,7 +67,6 @@
     </table>
 @endsection
 
-{{-- Jika ada script JS terpisah untuk ini, bisa ditambahkan di section scripts --}}
 {{-- @section('scripts')
-    <script src="{{ asset('assets/js/your_janji_temu_script.js') }}"></script>
+    <script src="{{ asset('js/dokter/pasien.js') }}"></script>
 @endsection --}}

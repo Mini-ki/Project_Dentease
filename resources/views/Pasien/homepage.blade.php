@@ -53,7 +53,7 @@
                                     <p class="mt-3">{{ htmlspecialchars($artikelItem->deskripsi) }}</p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="align-items: center;">Tutup</button>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
     </div>
 
     <h1 style="text-align: center; font-size: 50px; font-family: 'Oswald', sans-serif; color: #002A8C;">Layanan kami</h1>
-    <p style="text-align: center; color: #002A8C;">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+    <p style="text-align: center; color: #002A8C;">Berikut adalah daftar dokter dan layanan dari klinik kami.</p>
 
     <div class="container my-4">
         <div class="row justify-content-center align-items-stretch">
@@ -98,18 +98,17 @@
                         <div class="card-body">
                             <h5 class="card-title" style="font-family: 'Oswald', sans-serif;">{{ htmlspecialchars($layanan->nama_layanan) }}</h5>
                             <p class="card-text">
-                                Dokter:<br>
                                 @if (!empty($layanan->dokters))
                                 @foreach ($layanan->dokters as $dokter)
                                     <div class="dokter-info">
-                                        <p><strong>{{ $dokter->nama_lengkap }}</strong> - {{ $dokter->spesialis }}</p>
+                                        <p style="font-family: 'Barlow', serif;"><strong>{{ $dokter->nama_lengkap }}</strong> - {{ $dokter->spesialis }}</p>
                                     </div>
                                 @endforeach
                                 @else
                                     <em>Tidak ada dokter untuk layanan ini</em>
                                 @endif
                             </p>
-                            <p class="card-text">Biaya: Rp{{ number_format($layanan->biaya_layanan, 0, ',', '.') }}</p>
+                            <p class="card-text" style="font-family: 'Barlow', serif;">Biaya: Rp{{ number_format($layanan->biaya_layanan, 0, ',', '.') }}</p>
                         </div>
                     </div>
                 </div>
@@ -118,7 +117,7 @@
     </div>
 
     <div class="text-center mb-4">
-        <h2 class="text-primary" style="font-family: 'Oswald', sans-serif; color: #002A8C;">Frequently Asked Questions (FAQ)</h2>
+        <h2 class="text" style="font-family: 'Oswald', sans-serif; color: #002A8C;">Frequently Asked Questions (FAQ)</h2>
         <p class="text-muted" style="text-align: center;">Pertanyaan yang sering diajukan oleh pasien Dentease</p>
     </div>
     <div class="accordion" id="faqAccordion" style="margin-left: 200px;">
