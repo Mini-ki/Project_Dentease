@@ -22,7 +22,7 @@ class RekamMedisController extends Controller
         }
 
         $id_dokter = Auth::id(); // Mengambil ID dokter dari user yang sedang login
-
+        $dokter = DB::table('dokter')->where('id_dokter', $id_dokter)->first();
         $pasien = DB::table('konsultasi as k')
                     ->join('pasien as p', 'k.id_pasien', '=', 'p.id_pasien')
                     // Asumsi id_dokter di tabel konsultasi mereferensikan id di tabel users
@@ -32,7 +32,7 @@ class RekamMedisController extends Controller
                     ->orderBy('p.id_pasien', 'asc')
                     ->get();
 
-        return view('dokter.pasien.index', compact('pasien'));
+        return view('dokter.pasien.index', compact('pasien', 'dokter'));
     }
 
     /**
@@ -60,6 +60,7 @@ class RekamMedisController extends Controller
 
         $id_pasien = $request->id_pasien;
         $id_dokter = Auth::id(); // ID dokter yang sedang login
+        $dokter = DB::table('dokter')->where('id_dokter', $id_dokter)->first();
 
         // Pastikan pasien ini terhubung dengan dokter yang sedang login
         $is_associated = DB::table('konsultasi')
@@ -152,7 +153,7 @@ class RekamMedisController extends Controller
         }
 
         $id_dokter = Auth::id();
-
+        $dokter = DB::table('dokter')->where('id_dokter', $id_dokter)->first();
         $pasien_data = DB::table('pasien')->where('id_pasien', $id_pasien)->first();
 
         if (!$pasien_data) {
@@ -169,7 +170,7 @@ class RekamMedisController extends Controller
                             ->orderBy('r.tanggal', 'desc')
                             ->get();
 
-        return view('dokter.pasien.rekammedis_detail', compact('pasien_data', 'rekam_medis_list'));
+        return view('dokter.pasien.rekammedis_detail', compact('pasien_data', 'rekam_medis_list', 'dokter'));
     }
 
     /**

@@ -3,10 +3,10 @@
 @section('title', 'Dokter dan Layanan')
 
 @section('additional-css')
-    <link rel="stylesheet" href="{{ asset('css/cardDokter.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/biaya.css') }}">
-    
+    <link rel="stylesheet" href="{{ asset('css/pasien/cardDokter.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pasien/biaya.css') }}">
 @endsection
+
 @section('banner-title', 'Dokter dan Layanan')
 @section('banner-description', 'Dokter, layanan, dan biaya layanan kami.')
 
@@ -65,4 +65,7 @@
 <div class="text-center mb-5">
     <a href="{{ route('pasien.homepage') }}" class="button">Kembali</a>
 </div>
+@endsection
+@section('scripts')
+    <script src="{{ asset('js/AllJava.js') }}"></script>
 @endsection

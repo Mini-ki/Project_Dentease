@@ -3,9 +3,8 @@
 @section('title', 'Dentease')
 
 @section('additional-css')
-    <link rel="stylesheet" href="{{ asset('css/stylesJadwal.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/stylesHomepage.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/grid.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pasien/stylesHomepage.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pasien/grid.css') }}">
 @endsection
 
 @section('content')
@@ -171,4 +170,8 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/AllJava.js') }}"></script>
 @endsection

@@ -173,6 +173,17 @@ input {
     width: 200px;
 }
 
+.header{
+    background-color: #274760;
+    color: #ffffff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    display: block;
+    margin: 0 auto;
+}
+
 input:hover {
     background-color: #718193;
     color: #e9f1f6;

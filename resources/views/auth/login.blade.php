@@ -5,8 +5,8 @@
 @section('additional-css')
     {{-- CSS khusus untuk halaman login --}}
     <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/stylesJadwal.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pasien/stylesJadwal.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pasien/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 @endsection
 

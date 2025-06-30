@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Pasien;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth; 
-use Illuminate\Support\Facades\DB;   
+use Illuminate\Support\Facades\DB;  
+use App\Models\User;
 
 class BiayaController extends Controller
 {
@@ -18,6 +19,7 @@ class BiayaController extends Controller
             return redirect()->route('login')->with('error', 'Akses tidak sah. Anda harus login sebagai pasien.');
         }
 
+        $dokter = User::where('role', 'dokter')->first();
         $dokterList = DB::table('dokter')
             ->select('id_dokter', 'nama_panggilan', 'spesialis')
             ->orderBy('nama_panggilan')

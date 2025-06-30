@@ -3,7 +3,7 @@
 @section('title', 'Jadwal Dokter')
 
 @section('additional-css')
-    <link rel="stylesheet" href="{{ asset('css/stylesJadwal.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pasien/stylesJadwal.css') }}">
 @endsection
 
 @section('banner-title', 'Jadwal')

@@ -21,11 +21,12 @@ class JadwalController extends Controller
         }
 
         $id_dokter = Auth::id(); 
+        $dokter = DB::table('dokter')->where('id_dokter', $id_dokter)->first();
         $jadwals = DB::table('jadwal_dokter')
                       ->where('id_dokter', $id_dokter)
                       ->get(); 
 
-        return view('dokter.jadwal', compact('jadwals'));
+        return view('dokter.jadwal', compact('jadwals', 'dokter'));
     }
 
     /**

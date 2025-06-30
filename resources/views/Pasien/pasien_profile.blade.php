@@ -3,86 +3,8 @@
 @section('title', 'Profil Pasien - DENTEASE')
 
 @section('additional-css')
-    <link rel="stylesheet" href="{{ asset('/css/stylesJanji.css') }}">
-    <style>
-        .profile-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        .profile-photo {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .profile-photo img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #002A8C;
-        }
-        .card {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            width: 100%;
-            max-width: 80%;
-            margin-top: 20px;
-        }
-        .form-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        .form-field {
-            flex: 1 1 calc(50% - 10px);
-            display: flex;
-            flex-direction: column;
-        }
-        .form-field label {
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
-        }
-        .form-field input[type="text"],
-        .form-field input[type="number"],
-        .form-field input[type="tel"],
-        .form-field input[type="email"],
-        .form-field input[type="password"],
-        .form-field input[type="file"] {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .form-actions {
-            text-align: right;
-            margin-top: 20px;
-        }
-        .form-actions button {
-            background-color: #002A8C;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-        }
-        .form-actions button:hover {
-            background-color: #001f6e;
-        }
-        @media (max-width: 768px) {
-            .form-field {
-                flex: 1 1 100%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('/css/pasien/stylesJanji.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/pasien/pofile.css') }}">
 @endsection
 
 @section('banner-title', 'Profil Pasien')
@@ -189,5 +111,5 @@
 @endsection
 
 @section('scripts')
-    {{-- Your existing scripts, if any --}}
+    <script src="{{ asset('js/AllJava.js') }}"></script>
 @endsection

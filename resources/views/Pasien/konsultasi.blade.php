@@ -3,8 +3,8 @@
 @section('title', 'Konsultasi')
 
 @section('additional-css')
-<link rel="stylesheet" href="{{ asset('css/stylesJadwal.css') }}">
-<link rel="stylesheet" href="{{ asset('css/konsultasi.css') }}">
+<link rel="stylesheet" href="{{ asset('css/pasien/stylesJadwal.css') }}">
+<link rel="stylesheet" href="{{ asset('css/pasien/konsultasi.css') }}">
 <style>
     .rekam-medis-modal-content p {
         margin-bottom: 0.5rem;

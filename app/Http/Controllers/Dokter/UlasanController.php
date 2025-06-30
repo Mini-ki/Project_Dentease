@@ -21,7 +21,8 @@ class UlasanController extends Controller
         }
 
         $id_dokter = Auth::id(); 
-        
+        $dokter = DB::table('dokter')->where('id_dokter', $id_dokter)->first();
+
         $ulasan = DB::table('ulasan_dokter as ud')
                     ->join('konsultasi as k', 'ud.id_konsultasi', '=', 'k.id_konsultasi')
                     ->where('ud.id_dokter', $id_dokter)
@@ -29,6 +30,6 @@ class UlasanController extends Controller
                     ->orderBy('ud.id_ulasan', 'DESC')
                     ->get();
                     
-        return view('dokter.ulasan', compact('ulasan'));
+        return view('dokter.ulasan', compact('ulasan', 'dokter'));
     }
 }

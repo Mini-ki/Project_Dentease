@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Konsultasi; 
+use Illuminate\Support\Facades\DB;
 
 class JanjiTemuController extends Controller
 {
@@ -21,6 +22,7 @@ class JanjiTemuController extends Controller
         }
 
         $id_dokter_login = Auth::id(); 
+        $dokter = DB::table('dokter')->where('id_dokter', $id_dokter_login)->first();
 
         $konsultasi = Konsultasi::with('pasien') 
                                 ->where('id_dokter', $id_dokter_login) 
@@ -28,7 +30,7 @@ class JanjiTemuController extends Controller
                                 ->orderBy('tanggal_konsultasi', 'asc') 
                                 ->get(); 
 
-        return view('dokter.janjitemu', compact('konsultasi'));
+        return view('dokter.janjitemu', compact('konsultasi', 'dokter'));
     }
 
     /**
