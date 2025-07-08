@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 14, 2025 at 07:36 AM
+-- Generation Time: Jul 08, 2025 at 11:16 PM
 -- Server version: 8.4.3
--- PHP Version: 8.2.26
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,7 +39,9 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id_admin`, `nama_admin`, `noHP`, `role`) VALUES
-(1, 'Superrr', '081933902561', 'super_admin');
+(1, 'Superrr', '081933902561', 'super_admin'),
+(71, 'MisukyAdmin', '0819221123545', 'admin'),
+(88, 'MisukyOperator', '0819221123546', 'operator');
 
 -- --------------------------------------------------------
 
@@ -48,8 +50,8 @@ INSERT INTO `admin` (`id_admin`, `nama_admin`, `noHP`, `role`) VALUES
 --
 
 CREATE TABLE `cache` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `expiration` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -60,8 +62,8 @@ CREATE TABLE `cache` (
 --
 
 CREATE TABLE `cache_locks` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `owner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `owner` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `expiration` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -73,7 +75,7 @@ CREATE TABLE `cache_locks` (
 
 CREATE TABLE `dokter` (
   `id_dokter` int NOT NULL,
-  `foto_profil` mediumblob NOT NULL,
+  `foto_profil` varchar(255) DEFAULT NULL,
   `nama_panggilan` varchar(255) NOT NULL,
   `nama_lengkap` varchar(255) NOT NULL,
   `umur` int NOT NULL,
@@ -87,7 +89,7 @@ CREATE TABLE `dokter` (
 --
 
 INSERT INTO `dokter` (`id_dokter`, `foto_profil`, `nama_panggilan`, `nama_lengkap`, `umur`, `spesialis`, `id_layanan`, `alamat`) VALUES
-(2, '', 'Dr. Mutia', 'Dr. Baiq Mutia Dewi Edelweis', 20, 'Spesialis Gigi Anak', 2, 'Jl. Drs Said nomor 14, Montong Sari Gerung'),
+(2, 'img/uploads/fotoprofil_dokter/1751116103.jpg', 'Dr. Mutia', 'Dr. Baiq Mutia Dewi Edelweis', 27, 'Spesialis Gigi Anak', 2, 'Jl. Drs Said nomor 14, Montong Sari Gerung'),
 (3, '', 'Dr. Jaye', 'Dr. I Nyoman Swardi Jaya Putra', 20, 'Spesialis Bedah Gigi', 1, 'Jl. Kera Sakti No 21, Mataram '),
 (4, '', 'Dr. Fiana', 'Dr. Lutfiana', 20, 'Spesialis Gigi anak', 2, 'Jl. JempongBaru No 2'),
 (52, '', 'Dr. Nita', 'Dr. Ni Luh Nita Mahardika', 28, 'Spesialis Ortodonti', 4, 'Jl. Cakranegara No 9'),
@@ -111,11 +113,11 @@ INSERT INTO `dokter` (`id_dokter`, `foto_profil`, `nama_panggilan`, `nama_lengka
 
 CREATE TABLE `failed_jobs` (
   `id` bigint UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -130,7 +132,7 @@ CREATE TABLE `feed` (
   `judul_feed` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `deskripsi` text NOT NULL,
   `status` enum('Pengumuman','Artikel','Diskon') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `image` mediumblob NOT NULL,
+  `image` varchar(255) NOT NULL,
   `id_admin` int NOT NULL,
   `created_at` timestamp NOT NULL,
   `update_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -141,7 +143,9 @@ CREATE TABLE `feed` (
 --
 
 INSERT INTO `feed` (`id_feed`, `judul_feed`, `deskripsi`, `status`, `image`, `id_admin`, `created_at`, `update_at`) VALUES
-(5, 'Penyakit Gigi Berlubang', 'Gigi berlubang bukan sekadar masalah estetika—jika dibiarkan, kondisi ini bisa menyebabkan nyeri hebat, infeksi serius, bahkan kerusakan permanen pada jaringan gigi dan saraf. Artikel ini membahas penyebab utama gigi berlubang, gejala yang harus diwaspadai, serta dampak jangka panjang terhadap kesehatan mulut dan tubuh secara keseluruhan. Temukan juga tips pencegahan efektif agar Anda terhindar dari risiko gigi berlubang.', 'Artikel', 0x315f506c61744e6f6d6f725f312e6a7067, 1, '2025-06-09 09:56:16', '2025-05-29 09:18:40');
+(5, 'Penyakit Gigi Biasa', 'Gigi berlubang bukan sekadar masalah estetika—jika dibiarkan, kondisi ini bisa menyebabkan nyeri hebat, infeksi serius, bahkan kerusakan permanen pada jaringan gigi dan saraf. Artikel ini membahas penyebab utama gigi berlubang, gejala yang harus diwaspadai, serta dampak jangka panjang terhadap kesehatan mulut dan tubuh secara keseluruhan. Temukan juga tips pencegahan efektif agar Anda terhindar dari risiko gigi berlubang.', 'Artikel', 'img/uploads/feed/Ux4EXmV5OFjhfOh4mcHkSsFlnWegKrcb6kSNPvUo.jpg', 1, '2025-06-24 13:17:26', '2025-05-29 09:18:40'),
+(6, 'Pentingnya Menjaga Kesehatan Gusi: Lebih dari Sekadar Nafas Segar', 'Kesehatan gusi sering kali terabaikan, padahal memiliki peran vital dalam menjaga kestabilan gigi dan kesehatan mulut secara keseluruhan. Radang gusi yang dibiarkan dapat berkembang menjadi periodontitis—infeksi serius yang bisa menyebabkan gigi tanggal. Artikel ini membahas penyebab umum gangguan gusi, tanda-tanda awal yang perlu diwaspadai, serta kaitannya dengan penyakit sistemik seperti diabetes dan jantung. Pelajari juga cara merawat gusi agar tetap sehat sepanjang usia.', 'Pengumuman', 'img/uploads/feed/ZyWpj3zqLane38CTZAzo27HrqE5ky5YjPfAXc3xF.jpg', 1, '2025-06-20 19:57:41', '2025-06-20 19:57:41'),
+(7, 'Kebiasaan Sehari-hari yang Tanpa Disadari Merusak Kesehatan Gigi', 'Beberapa kebiasaan kecil yang tampak sepele ternyata dapat berdampak besar terhadap kesehatan gigi Anda. Mulai dari mengonsumsi minuman manis berlebihan, menyikat gigi terlalu keras, hingga menggertakkan gigi saat tidur—semuanya berkontribusi pada kerusakan enamel dan gigi sensitif. Dalam artikel ini, kita akan membahas berbagai kebiasaan berisiko, penjelasan dampak jangka panjangnya, serta langkah-langkah praktis untuk mencegah kerusakan gigi sejak dini. Ubah kebiasaan Anda sebelum terlambat.', 'Pengumuman', 'img/uploads/feed/Nhe5gevVzN5MSxwyvUwRAm8BbRUuICDGwdk1Cj7l.jpg', 1, '2025-06-20 19:58:18', '2025-06-20 19:58:18');
 
 -- --------------------------------------------------------
 
@@ -247,8 +251,8 @@ INSERT INTO `jadwal_dokter` (`id_jadwal`, `id_dokter`, `hari`, `change_date`, `j
 
 CREATE TABLE `jobs` (
   `id` bigint UNSIGNED NOT NULL,
-  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `attempts` tinyint UNSIGNED NOT NULL,
   `reserved_at` int UNSIGNED DEFAULT NULL,
   `available_at` int UNSIGNED NOT NULL,
@@ -262,13 +266,13 @@ CREATE TABLE `jobs` (
 --
 
 CREATE TABLE `job_batches` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `total_jobs` int NOT NULL,
   `pending_jobs` int NOT NULL,
   `failed_jobs` int NOT NULL,
-  `failed_job_ids` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `options` mediumtext COLLATE utf8mb4_unicode_ci,
+  `failed_job_ids` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `options` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `cancelled_at` int DEFAULT NULL,
   `created_at` int NOT NULL,
   `finished_at` int DEFAULT NULL
@@ -355,7 +359,7 @@ INSERT INTO `layanan_dokter` (`id_layanan`, `nama_layanan`, `biaya_layanan`, `st
 
 CREATE TABLE `migrations` (
   `id` int UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -376,7 +380,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `pasien` (
   `id_pasien` int NOT NULL,
-  `foto_profil` mediumblob NOT NULL,
+  `foto_profil` varchar(255) DEFAULT NULL,
   `nama_panggilan` varchar(255) NOT NULL,
   `nama_lengkap` varchar(255) NOT NULL,
   `umur` int NOT NULL,
@@ -389,7 +393,7 @@ CREATE TABLE `pasien` (
 --
 
 INSERT INTO `pasien` (`id_pasien`, `foto_profil`, `nama_panggilan`, `nama_lengkap`, `umur`, `alamat`, `noHp`) VALUES
-(28, '', 'Mutia', 'Baiq Mutia Dewi Edelweis', 20, 'Jl. Gerung Kesasar No 21', '087124567121'),
+(28, 'img/uploads/fotoprofil_pasien/1750896494.jpg', 'Mutia', 'Baiq Mutia Dewi Edelweis', 27, 'Jl. Gerung Kesasar No 21', '087124567121'),
 (29, '', 'Fiana', 'Lutfiana', 20, 'Jl. JempongBaru No 12', '087123665512'),
 (30, '', 'Jayee', 'I Nyoman Swardi Jaya Putra', 20, 'Jl. GunungSari No 1', '08533441201'),
 (31, '', 'Eka', 'Ni Wayan Eka Aprilianti', 19, 'Jl. Tanjung No 21', '081921765100'),
@@ -403,15 +407,14 @@ INSERT INTO `pasien` (`id_pasien`, `foto_profil`, `nama_panggilan`, `nama_lengka
 (39, '', 'Farid', 'Farid Akbar', 27, 'Jl. Pisang No?15', '081211110008'),
 (40, '', 'Galuh', 'Ni Putu Galuh Suryani', 23, 'Jl. Seroja No?5', '081211110009'),
 (41, '', 'Lisa', 'Lisa Pratiwi', 30, 'Jl. Pahlawan No?7', '081211110010'),
-(42, '', 'Rangga', 'I Ketut Rangga', 28, 'Jl. Rajawali No?1', '081211110011'),
+(42, '', 'Rangga', 'I Ketut Rangga', 28, 'Jl. Rajawali No 1', '081211110011'),
 (43, '', 'Yani', 'Yani Astuti', 24, 'Jl. Sakura No?14', '081211110012'),
 (44, '', 'Rio', 'Rio Pratama', 26, 'Jl. Kemuning No?9', '081211110013'),
 (45, '', 'Santi', 'Santi Widya', 25, 'Jl. Sanggul No?11', '081211110014'),
 (46, '', 'Dwi', 'Dwi Prasetyo', 29, 'Jl. Sutra No?6', '081211110015'),
 (47, '', 'Indra', 'I Gede Indra Putra', 27, 'Jl. Anyelir No?2', '081211110016'),
 (48, '', 'Oki', 'Oki Firmansyah', 28, 'Jl. Palapa No?13', '081211110017'),
-(49, '', 'Tari', 'Ni Kadek Tari Kusuma', 23, 'Jl. Kenari No?10', '081211110018'),
-(50, '', 'Agus B', 'I Putu Agus Budiman', 30, 'Jl. Gajah Mada No?4', '081211110019');
+(50, '', 'Agus B', 'I Putu Agus Budiman', 50, 'Jl. Gajah Mada No?4', '081211110019');
 
 -- --------------------------------------------------------
 
@@ -434,8 +437,7 @@ CREATE TABLE `rekam_medis` (
 
 INSERT INTO `rekam_medis` (`id_rekam_medis`, `tanggal`, `diagnose`, `tindakan`, `obat`, `id_konsultasi`) VALUES
 (1, '2025-06-13 21:32:37', 'atit gigi', 'suntik', 'cinta', 1),
-(2, '2025-06-13 21:33:12', 'atit gigi', 'suntik', 'cinta', 1),
-(3, '2025-06-13 21:44:11', 'boong', 'ngk ad', 'cinta', 2);
+(2, '2025-06-13 21:33:12', 'atit gigi', 'suntik', 'cinta', 1);
 
 -- --------------------------------------------------------
 
@@ -444,11 +446,11 @@ INSERT INTO `rekam_medis` (`id_rekam_medis`, `tanggal`, `diagnose`, `tindakan`, 
 --
 
 CREATE TABLE `sessions` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` bigint UNSIGNED DEFAULT NULL,
-  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_agent` text COLLATE utf8mb4_unicode_ci,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ip_address` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_agent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_activity` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -457,8 +459,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('R6bWNTcqPmZpBtXLt28sogunZR2xUKBtgue7ixrJ', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoicEQzRWpjZDZtVHBpcGxJbFlPNURQOGdwMXRBWmk4VmdSZUI0U1JqQiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjQ7czo1MzoibG9naW5fZG9rdGVyXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NDt9', 1749886365),
-('Vo6as4PSl5RLoX7Lsano5cQ2qO7wlr0y3vlTAsjs', 28, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoidTloN3k2NVBtSE12aHJFVENzN01JME5WN2tGNWUyMTVWNnA1ZjZOYSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9maWxlIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mjg7czo1MjoibG9naW5fYWRtaW5fNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6NTM6ImxvZ2luX3Bhc2llbl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI4O30=', 1749883187);
+('YSXPPirAgbG9svkBdcgwvI99x1KFRuGJflpBJ2UU', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoibDBRWVBsSUxzbnpZcGRjcUlPOEhGQkNrWldTRFBxYUtoN1pyamRCWiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fX0=', 1751268060);
 
 -- --------------------------------------------------------
 
@@ -501,10 +502,10 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id_user`, `username`, `email`, `password`, `role`) VALUES
 (1, 'admin', 'admin@gmail.com', '$2y$12$PUpc6B15H2ljFUTJ/LDt9uA6avUVAUBzt.Kma6AWFHuPfQ0c3VLnu', 'admin'),
-(2, 'doktermutia', 'doktermutia@gmail.com', '$2y$12$INov75pkxfrDwtYJfHdZOeGNN9myBh5FHKDJrbknuE4BNqt4Ez6Kq', 'dokter'),
-(3, 'dokterjaye', 'dokterjaye@gmail.com', '$2y$10$AFQQNeAniYZ1lHeVj/AFtOK1g6Nf1xZ3rwQNp02b.nBtIYHad4hfW', 'dokter'),
+(2, 'doktermutia', 'doktermutia@gmail.com', '$2y$12$FHBks0wO0z9CPJDqZlpueuR0hd.PLyg.ereRvLEKxKlhXxpSUb/cW', 'dokter'),
+(3, 'dokterjaye', 'dokterjaye@gmail.com', '$2y$12$pf4QPS3.W27yBlKV6rHdru/mq9lfD9N8Dz4oNN3RsuquJwvyndhDu', 'dokter'),
 (4, 'dokterfiana', 'dokterfiana@gmail.com', '$2y$12$cP04LXM2XGH6rOd8.hOgFuJTd8W13YpWh1o6Ba5PcehrUOAYn/haC', 'dokter'),
-(27, 'Misuky', 'Misuky@gmail.com', '$2y$10$qdMiN1TZCBSAgf9MkDzNgOz2bci1rJhFOUgu8AFdJvLkKyQ0cQRZa', 'pasien'),
+(27, 'Misuky', 'Misuky@gmail.com', '$2y$12$.0u24WicnHllLD1aGsmT3.gSAj3aIGBA0EX8VPxWXx6Nqhcs8KI9K', 'pasien'),
 (28, 'Mutia', 'Mutia@gmail.com', '$2y$12$vsBG84LdC.OkzCSNOATkq.TJNqPZ5A0NwFKx4XsNAXNgNk3NlfWOK', 'pasien'),
 (29, 'Fiana', 'Fiana@gmail.com', '$2y$10$P8q0YrJYPlxhcZcyS4KVA.vKWukw3CCtJ6TPrfzAkgx2C4Kg4m3Wq', 'pasien'),
 (30, 'Jaye', 'Jaye@gmail.com', '$2y$10$srHz5mgY9Ea4MZB9DoY9hOJXEjAsy4W9LSnRUw0NdGsgCaVx590sq', 'pasien'),
@@ -526,7 +527,6 @@ INSERT INTO `users` (`id_user`, `username`, `email`, `password`, `role`) VALUES
 (46, 'dwi', 'dwi@gmail.com', 'demo123', 'pasien'),
 (47, 'indra', 'indra@gmail.com', 'demo123', 'pasien'),
 (48, 'oki', 'oki@gmail.com', 'demo123', 'pasien'),
-(49, 'tari2', 'tari2@gmail.com', 'demo123', 'pasien'),
 (50, 'agus2', 'agus2@gmail.com', 'demo123', 'pasien'),
 (51, 'sari', 'sari@gmail.com', 'demo123', 'pasien'),
 (52, 'dokternita', 'nita@gmail.com', 'demo123', 'dokter'),
@@ -542,7 +542,11 @@ INSERT INTO `users` (`id_user`, `username`, `email`, `password`, `role`) VALUES
 (62, 'Kaziya', 'Kaziya@gmail.com', '$2y$10$M3WHvOiTJ8KE9sABEBReOuONu16OnEqR8cn/cQNgQ8KM8aWFw9Brq', 'dokter'),
 (63, 'Kaziya', 'DrKaziya@gmail.com', '$2y$10$YxIAdPTg19Ms6.DIhswUDOOuYxLs.nenmyMin630zq8uZ8zwTq.XS', 'dokter'),
 (64, 'DrAnis', 'DrAnis@gmail.com', '$2y$10$ky0YhJo3YMnsJa7EUvygxevyGhpoRtHBf9AJVNi0mlAohXEezpfVG', 'dokter'),
-(65, 'DrAnis', 'DrAnis@gmail.com', '$2y$10$ZTjLBzicb0pcopwFBjofxuQVpNTqkCAh1ToO2LCRLytv/o4ZeGOpi', 'dokter');
+(71, 'MisukyAdmin', 'MisukyAdmin@gmail.com', '$2y$12$IPKIwBiHE7C9n1GnZ2LYLe0oCPrkr1H3r7x9XlvQAckirrcj7Cgue', 'admin'),
+(85, 'Nekomanta', 'Nekomanta@gmail.com', '$2y$12$dLoIIBMSHEe/z3EBSY4fD.wrYMQd1VLWiV/XOfViT.IWHbZQgryPW', 'pasien'),
+(86, 'Nekomiku', 'Nekomiku@gmail.com', '$2y$12$D1dZVbV9ruyMgcO18vCYF.8VER135OLgDUdC7Too3pv3RDzUnUoTK', 'pasien'),
+(87, 'Nekonika', 'Nekonika@gmail.com', '$2y$12$IA4s.91I5rnR88T0Qf73SuM3rC/f5XA1NB57dtonlm4SFPJfZf29m', 'pasien'),
+(88, 'MisukyOperator', 'MisuOperator@gmail.com', '$2y$12$v1EPbHjXiWjiQbcZu4SYf.78ybhIzaIc8MupjE4tOt03enJ2Hr/yG', 'admin');
 
 --
 -- Indexes for dumped tables
@@ -667,16 +671,10 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `admin`
---
-ALTER TABLE `admin`
-  MODIFY `id_admin` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `dokter`
 --
 ALTER TABLE `dokter`
-  MODIFY `id_dokter` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id_dokter` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -688,7 +686,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `feed`
 --
 ALTER TABLE `feed`
-  MODIFY `id_feed` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_feed` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `jadwal_dokter`
@@ -712,7 +710,7 @@ ALTER TABLE `konsultasi`
 -- AUTO_INCREMENT for table `layanan_dokter`
 --
 ALTER TABLE `layanan_dokter`
-  MODIFY `id_layanan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_layanan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -724,7 +722,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `pasien`
 --
 ALTER TABLE `pasien`
-  MODIFY `id_pasien` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id_pasien` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT for table `rekam_medis`
@@ -742,7 +740,7 @@ ALTER TABLE `ulasan_dokter`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- Constraints for dumped tables
@@ -752,7 +750,7 @@ ALTER TABLE `users`
 -- Constraints for table `admin`
 --
 ALTER TABLE `admin`
-  ADD CONSTRAINT `foreign_key_id_admin_users` FOREIGN KEY (`id_admin`) REFERENCES `users` (`id_user`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `foreign_key_admin_user` FOREIGN KEY (`id_admin`) REFERENCES `users` (`id_user`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `dokter`
@@ -765,7 +763,7 @@ ALTER TABLE `dokter`
 -- Constraints for table `feed`
 --
 ALTER TABLE `feed`
-  ADD CONSTRAINT `foreign_key_id_admin` FOREIGN KEY (`id_admin`) REFERENCES `admin` (`id_admin`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `foreign_key_admin_feed` FOREIGN KEY (`id_admin`) REFERENCES `admin` (`id_admin`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `jadwal_dokter`
